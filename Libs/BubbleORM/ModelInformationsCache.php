@@ -1,11 +1,17 @@
 <?php
 namespace BubbleORM;
 
+require_once __DIR__ ."Attributes\Ignore.php";
 use BubbleORM\Attributes\Ignore;
+require_once __DIR__ ."Attributes\Table.php";
 use BubbleORM\Attributes\Table;
+require_once __DIR__ ."Exceptions\TableInformationsNotFoundException.php";
 use BubbleORM\Exceptions\TableInformationsNotFoundException;
+require_once __DIR__ ."Exceptions\TableWithNoKeyException.php";
 use BubbleORM\Exceptions\TableWithNoKeyException;
+require_once __DIR__ ."Exceptions\TableWithoutPropertiesException.php";
 use BubbleORM\Exceptions\TableWithoutPropertiesException;
+
 use ReflectionClass;
 
 class ModelInformationsCache{

@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__."/../Libs/BubbleORM/DatabaseAccessor.php";
 use BubbleORM\DatabaseAccessor;
 
 $siteName = "Quiz";

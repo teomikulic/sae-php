@@ -20,4 +20,11 @@ class UserManager{
             ->where($f)
             ->all();
     }
+
+    public static function insert(User $user) : void{
+        global $db;
+
+        $db->add($user)
+            ->commit();
+    }
 }

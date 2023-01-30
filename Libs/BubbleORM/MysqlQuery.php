@@ -1,7 +1,9 @@
 <?php
 namespace BubbleORM;
 
+require_once __DIR__ ."DatabaseAccessor.php";
 use BubbleORM\DatabaseAccessor;
+require_once __DIR__ ."Exceptions\MissingColumnException.php";
 use BubbleORM\Exceptions\MissingColumnException;
 
 class MysqlQuery
@@ -18,7 +20,6 @@ class MysqlQuery
         $this->result = null;
         $this->conditions = [];
         $this->orderFuncs = [];
-        $this->properties = [];
 
         if(!ModelInformationsCache::tryGetModelInformations($this->class, $this->modelInfos))
             $this->modelInfos = ModelInformationsCache::tryRegisterModelInformations($this->class);

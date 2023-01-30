@@ -1,7 +1,7 @@
 <?php
 $baseNamespaces = [
-    "BubbleORM" => "Libs/BubbleORM/",
-    "Models" => "Models/",
+    "BubbleORM" => "Libs/BubbleORM",
+    "Models" => "Models",
 ];
 
 spl_autoload_register('autoload');
@@ -22,6 +22,6 @@ function autoload(string $className) : void{
             break;
         }
     }
-    
+    echo $result;
     require_once "$result.php";
 }

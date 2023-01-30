@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__."/../Libs/BubbleORM/DatabaseAccessor.php";
 use BubbleORM\DatabaseAccessor;
+use BubbleORM\Enums\DatabaseCreationMode;
 
 $siteName = "Quiz";
 
@@ -13,4 +13,4 @@ $dbName = "ecole";
 
 
 // DO NOT TOUCH
-$db = new DatabaseAccessor($dbHost, $dbUser, $dbPassword, $dbName);
+$db = new DatabaseAccessor($dbHost, $dbUser, $dbPassword, $dbName, DatabaseCreationMode::Override);

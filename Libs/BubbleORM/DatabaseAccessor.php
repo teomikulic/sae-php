@@ -1,7 +1,6 @@
 <?php
 namespace BubbleORM;
 
-require_once __DIR__ ."Enum\DatabaseCreationMode.php";
 use BubbleORM\Enums\DatabaseCreationMode;
 use PDO;
 use PDOStatement;

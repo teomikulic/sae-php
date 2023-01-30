@@ -1,23 +1,14 @@
 <?php
 namespace BubbleORM;
 
-require_once __DIR__ ."Attributes\Name.php";
 use BubbleORM\Attributes\Name;
-require_once __DIR__ ."Attributes\DefaultValue.php";
 use BubbleORM\Attributes\DefaultValue;
-require_once __DIR__ ."Attributes\Key.php";
 use BubbleORM\Attributes\Key;
-require_once __DIR__ ."Attributes\MysqlType.php";
 use BubbleORM\Attributes\MysqlType;
-require_once __DIR__ ."Attributes\Size.php";
 use BubbleORM\Attributes\Size;
-require_once __DIR__ ."Attributes\Unsigned.php";
 use BubbleORM\Attributes\Unsigned;
-require_once __DIR__ ."Exceptions\IncorrectDefaultValueTypeException.php";
 use BubbleORM\Exceptions\IncorrectDefaultValueTypeException;
-require_once __DIR__ ."Exceptions\InvalidUnsignedForTypeException.php";
 use BubbleORM\Exceptions\InvalidUnsignedForTypeException;
-require_once __DIR__ ."Exceptions\NotInitializedProperty.php";
 use BubbleORM\Exceptions\NotInitializedProperty;
 
 use ReflectionProperty;

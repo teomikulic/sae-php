@@ -1,9 +1,7 @@
 <?php
 namespace BubbleORM;
 
-require_once __DIR__ ."DatabaseAccessor.php";
 use BubbleORM\DatabaseAccessor;
-require_once __DIR__ ."Exceptions\MissingColumnException.php";
 use BubbleORM\Exceptions\MissingColumnException;
 
 class MysqlQuery

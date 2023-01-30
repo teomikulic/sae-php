@@ -2,9 +2,7 @@
 namespace BubbleORM;
 
 use Closure;
-require_once __DIR__ ."Attributes\Table.php";
 use BubbleORM\Attributes\Table;
-require_once __DIR__ ."Exceptions\NotHandledTypeException.php";
 use BubbleORM\Exceptions\NotHandledTypeException;
 
 class ModelInformations{

@@ -4,7 +4,7 @@ use BubbleORM\DatabaseAccessor;
 use BubbleORM\Enums\DatabaseCreationMode;
 use Models\Question;
 
-$siteName = "Quiz";
+$siteName = "OpenQuizz";
 
 // DB
 $dbHost = "127.0.0.1";

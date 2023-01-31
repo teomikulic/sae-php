@@ -1,9 +1,4 @@
 <?php
-
-use BubbleORM\DatabaseAccessor;
-use BubbleORM\Enums\DatabaseCreationMode;
-use Models\Question;
-
 $siteName = "Quiz";
 
 // DB

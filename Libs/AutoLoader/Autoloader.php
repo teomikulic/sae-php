@@ -2,6 +2,7 @@
 $baseNamespaces = [
     "BubbleORM" => "Libs/BubbleORM",
     "Models" => "Models",
+    "Enums" => "Enums",
 ];
 
 spl_autoload_register('autoload');

@@ -21,10 +21,9 @@ class UserManager{
             ->all();
     }
 
-    public static function insert(User $user) : void{
+    public static function register(string $email, string $password, string $firstName, string $lastName) : void{
         global $db;
 
-        $db->add($user)
-            ->commit();
+        
     }
 }

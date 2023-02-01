@@ -15,6 +15,7 @@ class Question{
     #[Key] public int $id;
 
     public function __construct(
+        public int $quizId,
         #[Size(120)] public string $question,
         #[MysqlType(MysqlTypeEnum::TinyInt)] public int $type,
         #[MysqlType(MysqlTypeEnum::TinyText)] public string $rightAnswer,

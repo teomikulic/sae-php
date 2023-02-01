@@ -18,4 +18,9 @@ class User{
         public string $lastName,
         #[MysqlType(MysqlTypeEnum::LongBlob)] public ?array $img
     ) {}
+
+    public function logOut() : void{
+        $_SESSION = [];
+        session_destroy();
+    }
 }

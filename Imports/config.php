@@ -1,10 +1,10 @@
 <?php
-$siteName = "Quiz";
+define("siteName", "OpenQuizz");
 
 // DB
-$dbHost = "127.0.0.1";
-$dbUser = "root";
-$dbPassword = "";
-$dbName = "ecole";
+define("dbHost", "127.0.0.1");
+define("dbUser", "root");
+define("dbPassword", "");
+define("dbName", "ecole");
 
 session_start();

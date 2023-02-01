@@ -9,7 +9,6 @@ use BubbleORM\Attributes\Unsigned;
 use BubbleORM\Attributes\MysqlType;
 use BubbleORM\Enums\MysqlTypeEnum;
 use BubbleORM\Attributes\Ignore;
-use BubbleORM\DatabaseAccessor;
 
 #[Table("quiz")]
 class Quiz{

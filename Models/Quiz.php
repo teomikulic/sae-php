@@ -8,6 +8,8 @@ use BubbleORM\Attributes\Size;
 use BubbleORM\Attributes\Unsigned;
 use BubbleORM\Attributes\MysqlType;
 use BubbleORM\Enums\MysqlTypeEnum;
+use BubbleORM\Attributes\Ignore;
+use BubbleORM\DatabaseAccessor;
 
 #[Table("quiz")]
 class Quiz{
@@ -16,6 +18,7 @@ class Quiz{
     public function __construct(
         #[Size(35)]public string $name,
         #[Size(200)] public string $description,
-        #[MysqlType(MysqlTypeEnum::LongBlob)] public array $img
-    ) {}
+        #[MysqlType(MysqlTypeEnum::LongBlob)] public array $img,
+        #[Ignore] private array $questions = []
+    ){}
 }

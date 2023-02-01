@@ -13,7 +13,7 @@ class User{
 
     public function __construct(
         public string $email,
-        public string $password,
+        #[MysqlType(MysqlTypeEnum::Text)]public string $password,
         public string $firstName,
         public string $lastName,
         #[MysqlType(MysqlTypeEnum::LongBlob)] public ?array $img

@@ -7,4 +7,5 @@ enum RegistrationResult{
     case EmailFormat;
     case PasswordFormat;
     case PasswordsDifferent;
+    case SpecialCharsInNames;
 }

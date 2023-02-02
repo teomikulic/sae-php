@@ -16,7 +16,7 @@ class User{
         #[MysqlType(MysqlTypeEnum::Text)]public string $password,
         public string $firstName,
         public string $lastName,
-        #[MysqlType(MysqlTypeEnum::LongBlob)] public ?array $img
+        public ?string $img
     ) {}
 
     public function logOut() : void{

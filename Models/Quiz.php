@@ -18,7 +18,7 @@ class Quiz{
     public function __construct(
         #[Size(35)]public string $name,
         #[Size(200)] public string $description,
-        #[MysqlType(MysqlTypeEnum::LongBlob)] public array $img
+        public string $imgName
     ){}
 
     public function isAvailable() : bool{

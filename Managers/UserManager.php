@@ -11,6 +11,7 @@ class UserManager{
     const passwordRegex = "(?=^[A-Za-z0-9]{3,24}$)(?=.+[A-Z])(?=.+[0-9])";
     const letterRegex = "[A-z-]+";
 
+    // NB : Il n'y a pas de filter_var dû aux regex au dessus qui clean déjà
     public static function register(DatabaseAccessor $db, string $email, string $password, string $passwordCheck, string $firstName, string $lastName) : RegistrationResult{
         $result = RegistrationResult::Success;
 

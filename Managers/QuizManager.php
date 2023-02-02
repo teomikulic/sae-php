@@ -12,9 +12,9 @@ class QuizManager{
             ->firstOrDefault();
         
         if($quiz) // If quiz isn't null then we load the questions. Because I havn't finish my ORM :'(
-            $quiz->questions = $db->createQuery(Question::class)
+            $quiz->setQuestions($db->createQuery(Question::class)
                 ->where(fn($question) => $question->quizId == $quizId)
-                ->all();
+                ->all());
 
         return $quiz;
     }

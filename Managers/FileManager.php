@@ -89,6 +89,7 @@ class FileManager{
         $uploadPath = self::getUploadPath($uploadType);
         if($uploadPath !== false){
             if(!empty($fileUploadOptions)){
+                // TO DO isCorrectFileType
                 $fileNameSplitted = explode(".", $file['name']);
                 $fileExtension = strtolower(end($fileNameSplitted));
 
@@ -96,7 +97,7 @@ class FileManager{
 
                 if($img !== false){
                     foreach($fileUploadOptions as $option)
-                        $img = self::handleUploadOption($img, $option);
+                        $img = /* TO DO action*/;
 
                     $result = self::uploadGdImage($img, $fileExtension, $uploadPath, basename($file['name']));
                 }

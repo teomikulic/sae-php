@@ -4,6 +4,8 @@ namespace Models;
 
 use BubbleORM\Attributes\Table;
 use BubbleORM\Attributes\Key;
+use BubbleORM\Attributes\Size;
+use BubbleORM\Attributes\Unsigned;
 use BubbleORM\Attributes\MysqlType;
 use BubbleORM\Enums\MysqlTypeEnum;
 
@@ -16,7 +18,8 @@ class User{
         #[MysqlType(MysqlTypeEnum::Text)]public string $password,
         public string $firstName,
         public string $lastName,
-        public ?string $img
+        public ?string $img,
+        #[MysqlType(MysqlTypeEnum::TinyInt), Size(1), Unsigned]public bool $isAdmin
     ) {}
 
     public function logOut() : void{

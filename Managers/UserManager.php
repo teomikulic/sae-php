@@ -24,7 +24,7 @@ class UserManager{
                 if(preg_match(self::passwordRegex, $password)){
                     if($password == $passwordCheck){
                         if(preg_match(self::letterRegex, $firstName) && preg_match(self::letterRegex, $lastName)){
-                            $db->add(new User($email, hash("sha512", $password), $firstName, $lastName, null))
+                            $db->add(new User($email, hash("sha512", $password), $firstName, $lastName, null, false))
                                 ->commit();
                         }
                         else 

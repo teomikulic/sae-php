@@ -31,20 +31,12 @@ class FileManager{
         return false;
     }
 
-    private static function convertToImage(string $fileExtension) : GdImage|false{
+    private static function convertToImage(mixed $file, string $fileExtension) : GdImage|false{
         return match($fileExtension){
             "jpeg" || "jpg" => imagecreatefromjpeg($file['tmp_name']),
             "png" => imagecreatefrompng($file['tmp_name']),
             default => false
         };
-    }
-
-    private static function handleUploadOption(GdImage $image, ImageUploadOption $option) : GdImage|false{
-        return match($option) {
-            ImageUploadOption::Crop => cropImgSquare($image),
-            ImageUploadOption::Resize => resizeImg(), // TO DO
-
-        }
     }
 
     private static function uploadGdImage(GdImage $image, string $imageExtension, string $uploadPath, string $fileName) : bool{
@@ -72,17 +64,18 @@ class FileManager{
         $uploadPath = self::getUploadPath($uploadType);
         if($uploadPath !== false){
             if(!empty($fileUploadOptions)){
-                // TO DO isCorrectFileType
-                $fileNameSplitted = explode(".", $file['name']);
-                $fileExtension = strtolower(end($fileNameSplitted));
-
-                $img = self::convertToImage($fileExtension);
-
-                if($img !== false){
-                    foreach($fileUploadOptions as $option)
-                        $img = /* TO DO action*/;
-
-                    $result = self::uploadGdImage($img, $fileExtension, $uploadPath, basename($file['name']));
+                if(self::isCorrectFileType($file, $allowedFileTypes)){
+                    $fileNameSplitted = explode(".", $file['name']);
+                    $fileExtension = strtolower(end($fileNameSplitted));
+    
+                    $img = self::convertToImage($file, $fileExtension);
+    
+                    if($img !== false){
+                        foreach($fileUploadOptions as $option)
+                            $img = $option->execute($img);
+    
+                        $result = self::uploadGdImage($img, $fileExtension, $uploadPath, basename($file['name']));
+                    }
                 }
             }
             else

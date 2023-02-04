@@ -32,16 +32,7 @@ class FileManager{
     }
 
     private static function cropImgSquare(GdImage $img) : GdImage{
-        $imgDimensions = [imagesx($img), imagesy($img)];
-        $largest = min($imgDimensions);
-        $im2 = null;
         
-        if($largest == $imgDimensions[self::imgHeightIndex])
-            $im2 = imagecrop($img, ['x' => $imgDimensions[self::imgWidthIndex] / 2 - $largest / 2, 'y' => 0, 'width' => $largest, 'height' => $largest]);
-        else
-            $im2 = imagecrop($img, ['x' => 0, 'y' => $imgDimensions[self::imgHeightIndex] / 2 - $largest / 2, 'width' => $largest, 'height' => $largest]);
-        
-        return $im2;
     }
     
     private static function resizeImg(GdImage $img, int $width, int $height) : GdImage{

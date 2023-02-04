@@ -31,14 +31,6 @@ class FileManager{
         return false;
     }
 
-    private static function cropImgSquare(GdImage $img) : GdImage{
-        
-    }
-    
-    private static function resizeImg(GdImage $img, int $width, int $height) : GdImage{
-        return imagescale($img, $width, $height, IMG_NEAREST_NEIGHBOUR);
-    }
-
     private static function convertToImage(string $fileExtension) : GdImage|false{
         return match($fileExtension){
             "jpeg" || "jpg" => imagecreatefromjpeg($file['tmp_name']),

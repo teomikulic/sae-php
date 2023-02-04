@@ -64,7 +64,7 @@ class FileManager{
         $uploadPath = self::getUploadPath($uploadType);
         if($uploadPath !== false){
             if(!empty($fileUploadOptions)){
-                if(self::isCorrectFileType($file, $allowedFileTypes)){
+                if(empty($allowedFileTypes) || self::isCorrectFileType($file, $allowedFileTypes)){
                     $fileNameSplitted = explode(".", $file['name']);
                     $fileExtension = strtolower(end($fileNameSplitted));
     

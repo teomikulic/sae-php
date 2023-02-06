@@ -4,6 +4,8 @@ namespace Managers;
 
 use BubbleORM\DatabaseAccessor;
 use Enums\FileType;
+use Enums\QuestionAddingResult;
+use Enums\QuestionType;
 use Enums\QuizAddingResult;
 use Enums\UploadType;
 use Models\Question;
@@ -12,6 +14,9 @@ use Utils\CropUploadOption;
 use Utils\ResizeUploadOption;
 
 class QuizManager{
+    const questionRegex = "[A-z-?!,;.0-9 ]{3,120}";
+    const answerRegex = "[A-z-,.0-9+!-*/']+|\\d+";
+    const answersSeparator = "|";
     const quizNameMinimumLength = 3;
     const quizDescriptionMinimumLength = 15;
     const quizImgWidth = 300;
@@ -52,6 +57,42 @@ class QuizManager{
         }
         else
             $result = QuizAddingResult::NameTooShort;
+
+        return $result;
+    }
+
+    public static function createQuestion(DatabaseAccessor $db, int $quizId, string $question, int $questionType, string $rightAnswer, array $answers) : QuestionAddingResult{
+        $result = QuestionAddingResult::Success;
+
+        if(!is_null($db->createQuery(Quiz::class)->where(fn($x) => $x->id == $quizId)->firstOrDefault())){
+            if(preg_match(self::questionRegex, $question)){
+                if(!is_null(QuestionType::tryFrom($questionType))){
+                    if(preg_match(self::answerRegex, $rightAnswer)){
+                        foreach($answers as $answer){
+                            if(preg_match(self::answerRegex, $answer || !is_string($answer))){
+                                $result = QuestionAddingResult::AnswerFormat;
+                                break;
+                            }
+                        }
+
+                        if($result !== QuestionAddingResult::AnswerFormat){
+                            $answersText = implode(self::answersSeparator, $answers);
+
+                            $db->add(new Question($quizId, $question, $questionType, $rightAnswer, $answersText))
+                                ->commit();
+                        }
+                    }
+                    else
+                        $result = QuestionAddingResult::RightAnswerFormat;
+                }
+                else
+                    $result = QuestionAddingResult::UknownQuestionType;
+            }
+            else
+                $result = QuestionAddingResult::QuestionFormat;
+        }
+        else
+            $result = QuestionAddingResult::UknownQuiz;
 
         return $result;
     }

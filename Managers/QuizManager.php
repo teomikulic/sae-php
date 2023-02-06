@@ -4,7 +4,7 @@ namespace Managers;
 
 use BubbleORM\DatabaseAccessor;
 use Enums\FileType;
-use Enums\QuestionAddingResult;
+use Enums\QuestionResult;
 use Enums\QuestionType;
 use Enums\QuizAddingResult;
 use Enums\UploadType;
@@ -62,7 +62,7 @@ class QuizManager{
     }
 
     public static function createQuestion(DatabaseAccessor $db, int $quizId, string $question, int $questionType, string $rightAnswer, array $answers) : QuestionAddingResult{
-        $result = QuestionAddingResult::Success;
+        $result = QuestionResult::Success;
 
         if(!is_null($db->createQuery(Quiz::class)->where(fn($x) => $x->id == $quizId)->firstOrDefault())){
             if(preg_match(self::questionRegex, $question)){
@@ -70,12 +70,12 @@ class QuizManager{
                     if(preg_match(self::answerRegex, $rightAnswer)){
                         foreach($answers as $answer){
                             if(preg_match(self::answerRegex, $answer || !is_string($answer))){
-                                $result = QuestionAddingResult::AnswerFormat;
+                                $result = QuestionResult::AnswerFormat;
                                 break;
                             }
                         }
 
-                        if($result !== QuestionAddingResult::AnswerFormat){
+                        if($result == QuestionResult::Success){
                             $answersText = implode(self::answersSeparator, $answers);
 
                             $db->add(new Question($quizId, $question, $questionType, $rightAnswer, $answersText))
@@ -83,16 +83,16 @@ class QuizManager{
                         }
                     }
                     else
-                        $result = QuestionAddingResult::RightAnswerFormat;
+                        $result = QuestionResult::RightAnswerFormat;
                 }
                 else
-                    $result = QuestionAddingResult::UknownQuestionType;
+                    $result = QuestionResult::UknownQuestionType;
             }
             else
-                $result = QuestionAddingResult::QuestionFormat;
+                $result = QuestionResult::QuestionFormat;
         }
         else
-            $result = QuestionAddingResult::UknownQuiz;
+            $result = QuestionResult::UknownQuiz;
 
         return $result;
     }

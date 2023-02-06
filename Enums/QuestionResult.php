@@ -2,7 +2,7 @@
 
 namespace Enums;
 
-enum QuestionAddingResult{
+enum QuestionResult{
     case Success;
     case UknownQuiz;
     case QuestionFormat;

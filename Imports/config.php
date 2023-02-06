@@ -1,4 +1,5 @@
 <?php
+
 define("siteName", "OpenQuizz");
 
 // DB

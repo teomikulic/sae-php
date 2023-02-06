@@ -61,7 +61,7 @@ class QuizManager{
         return $result;
     }
 
-    public static function createQuestion(DatabaseAccessor $db, int $quizId, string $question, int $questionType, string $rightAnswer, array $answers) : QuestionAddingResult{
+    public static function createQuestion(DatabaseAccessor $db, int $quizId, string $question, int $questionType, string $rightAnswer, array $answers) : QuestionResult{
         $result = QuestionResult::Success;
 
         if(!is_null($db->createQuery(Quiz::class)->where(fn($x) => $x->id == $quizId)->firstOrDefault())){

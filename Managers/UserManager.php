@@ -51,6 +51,7 @@ class UserManager
         if (preg_match(self::mailRegex, $email)) {
             if (preg_match(self::passwordRegex, $password)) {
                 $cryptedPassword = hash("sha512", $password);
+                $user = self::getUser($db, fn ($u) => $u == $email && $u->password == $cryptedPassword);
             } else
                 $result = ConnectionResult::PasswordFormat;
         } else

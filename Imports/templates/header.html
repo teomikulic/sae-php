@@ -18,11 +18,13 @@
             <a href="index.php" class="a-nav-img"><img src="./Imports/img/logo.png" alt="OpenQuizz" class="img-nav"></a>
             <a href="index.php" class="a-nav">Accueil</a>
             <a href="" class="a-nav">Quizz</a>
-            <a href="" class="a-nav">Connexion</a>
+            <a onclick="popup()" class="a-nav">Connexion</a>
             <a href="./inscription.php" class="a-nav">Inscription</a>
         </nav>
     </header>
-
+<?php
+if(!isset($_SESSION['user']) || !empty($_SESSION['user']))
+    require_once __DIR__."/popup.html";
+?>
 </body>
-
 </html>

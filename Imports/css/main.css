@@ -7,6 +7,10 @@
     --white: #FFFFFF;
 }
 
+a{
+    cursor: pointer;
+}
+
 @font-face {
     font-family: 'Nexa';
     src: url('../fonts/nexa/Nexa-Trial-Regular.ttf');
@@ -94,7 +98,7 @@ nav.nav-flex {
 }
 
 #popup{
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     background-color: rgba(0,0,0,0.5);
     position: fixed;
@@ -108,15 +112,14 @@ nav.nav-flex {
 
 #popup_content{
     margin: auto;
-    width: 40%;
     min-width: 325px;
-    background: white;
+    background: var(--dark);
     cursor: default;
     border-radius: 4px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.6);
     padding: 10px 20px;
     padding-top: 20px;
-    border-top: 6px solid var(--light-green);
+    border-top: 6px solid var(--grey);
 }
 
 .footer {
@@ -161,6 +164,72 @@ nav.nav-flex {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/*Text*/
+.title {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #f5f5f5;
+    -webkit-filter: drop-shadow(0px 0px 5px var(--white));
+    filter: drop-shadow(0px 0px 5px var(--white));
+}
+
+/*Inputs*/
+.field {
+    margin-top: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5em;
+    background: #1c2942;
+    border-radius: 4px;
+    padding: .5em 1em;
+}
+
+.input-icon {
+    height: 1em;
+    width: 1em;
+    fill: var(--blue);
+}
+
+.input-field {
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: var(--blue);
+    -webkit-filter: drop-shadow(0px 0px 5px var(--grey));
+    filter: drop-shadow(0px 0px 5px var(--grey));
+    font-size: large;
+}
+
+/*Buttons*/
+.btn {
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: .8em;
+    text-transform: uppercase;
+    padding: 0.6em 1.2em;
+    background-color: var(--white);
+    color: var(--blue);
+    box-shadow: 0 0px 20px 0px var(--blue);
+    transition: all .3s ease-in-out;
+    display: block;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-link {
+    color: #f5f5f5;
+    display: block;
+    font-size: .75em;
+    transition: color .3s ease-out;
+    text-align: center;
 }
 
 @media screen and (max-width: 768px) {

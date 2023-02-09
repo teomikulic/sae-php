@@ -12,11 +12,23 @@
     src: url('../fonts/nexa/Nexa-Trial-Regular.ttf');
 }
 
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/raleway/Raleway-Light.ttf');
+}
+
+html{
+    height: 100%;
+}
+
 body {
     background-color: var(--lightdark);
     color: var(--white);
     font-family: 'Nexa', sans-serif;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 header {
@@ -81,8 +93,81 @@ nav.nav-flex {
     transform: scale(0.8);
 }
 
+#popup{
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    z-index: 99;
+    cursor: pointer;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+}
+
+#popup_content{
+    margin: auto;
+    width: 40%;
+    min-width: 325px;
+    background: white;
+    cursor: default;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    padding-top: 20px;
+    border-top: 6px solid var(--light-green);
+}
+
+.footer {
+    background-color: var(--dark);
+    margin-top: auto;
+    height: 100%;
+}
+
+.footer-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer p {
+    color: var(--blue);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    font-family: 'Raleway';
+}
+
+.img-footer {
+    height: 5rem;
+    align-items: center;
+}
+
+.img-footer:hover {
+    transition: 0.5s;
+    transform: matrix(1.1, 0, 0, 1.1, 0, 0);
+    -webkit-filter: drop-shadow(0px 0px 5px var(--grey));
+    filter: drop-shadow(0px 0px 5px var(--grey));
+}
+
+.img-footer:active {
+    transform: scale(0.8);
+}
+
+.centered_content{
+    width: 100%;
+    height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 @media screen and (max-width: 768px) {
     .img-nav {
+        height: 3rem;
+    }
+    .img-footer {
         height: 3rem;
     }
 }
@@ -91,6 +176,7 @@ nav.nav-flex {
     .img-nav {
         height: 2rem;
     }
+    .img-footer {
+        height: 2rem;
+    }
 }
-
-

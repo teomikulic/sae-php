@@ -1,25 +1,5 @@
-:root {
-    /* Palette de couleur */
-    --dark: #0B162C;
-    --lightdark: #1C2942;
-    --grey: #3B556D;
-    --blue: #5FC2BA;
-    --white: #FFFFFF;
-}
-
-@font-face {
-    font-family: 'Raleway';
-    src: url('../fonts/raleway/Raleway-Regular.ttf');
-}
-
-main {
-    display: flex;
-    align-self: center;
-}
-
 .card {
     position: inherit;
-    transform: translateY(50%);
     width: 300px;
     padding: 1.9rem 1.2rem;
     margin-right: 0;

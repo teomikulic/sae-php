@@ -1,5 +1,9 @@
 <?php
 
+use Managers\UserManager;
+
+UserManager::loginRequired(false);
+
 require_once "Libs/requirements.php";
 
 require_once "Imports/templates/header.html";

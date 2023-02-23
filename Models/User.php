@@ -21,9 +21,4 @@ class User{
         public ?string $img,
         #[MysqlType(MysqlTypeEnum::TinyInt), Size(1), Unsigned]public bool $isAdmin
     ) {}
-
-    public function logOut() : void{
-        $_SESSION = [];
-        session_destroy();
-    }
 }

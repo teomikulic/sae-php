@@ -23,6 +23,10 @@ class Quiz{
         return !is_null($this->questions);
     }
 
+    public function getQuestionsCount() : int{
+        return $this->isAvailable() ? count($this->questions) : 0;
+    }
+
     public function setQuestions(array $questions) : void{
         $this->questions = $questions;
     }

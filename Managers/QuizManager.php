@@ -29,6 +29,18 @@ class QuizManager{
             ->all());
     }
 
+    public static function getQuizzes(DatabaseAccessor $db, ?callable $func = null) : array{
+        $query = $db->createQuery(Quiz::class);
+
+        if($func)
+            $query->where($func);
+
+        foreach($query->all() as $quiz)
+            self::assignQuestions($db, $quiz);
+
+        return $query->all();
+    }
+
     public static function getQuiz(DatabaseAccessor $db, int $quizId) : ?Quiz{
         $quiz = $db->createQuery(Quiz::class)
             ->where(fn($quiz) => $quiz->id == $quizId)

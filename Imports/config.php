@@ -1,5 +1,8 @@
 <?php
 
+use BubbleORM\DatabaseAccessor;
+use BubbleORM\Enums\DatabaseCreationMode;
+
 define("siteName", "OpenQuizz");
 
 // DB
@@ -9,3 +12,4 @@ define("dbPassword", "");
 define("dbName", "ecole");
 
 session_start();
+$db = new DatabaseAccessor(dbHost, dbUser, dbPassword, dbName, DatabaseCreationMode::Create);

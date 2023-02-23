@@ -19,6 +19,6 @@ class User{
         public string $firstName,
         public string $lastName,
         public ?string $img,
-        #[MysqlType(MysqlTypeEnum::TinyInt), Size(1), Unsigned]public bool $isAdmin
+        #[MysqlType(MysqlTypeEnum::TinyInt), Size(1)]public int $isAdmin
     ) {}
 }

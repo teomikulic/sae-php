@@ -1,0 +1,12 @@
+<div class="container">
+    <?php
+        use Managers\QuizManager;
+
+        foreach(QuizManager::getQuizzes($db) as $quizz) {
+            echo "<div class='quizz-div'>";
+            echo "<h3>".$quizz->id."</h3>";
+            echo "<img src='".$quizz->imgName."' alt='Image du quizz' >";
+            echo "</div>";
+        }
+    ?>
+</div>

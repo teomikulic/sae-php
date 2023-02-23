@@ -1,0 +1,251 @@
+:root {
+    /* Palette de couleur */
+    --dark: #0B162C;
+    --lightdark: #1C2942;
+    --grey: #3B556D;
+    --blue: #5FC2BA;
+    --white: #FFFFFF;
+}
+
+a{
+    cursor: pointer;
+}
+
+@font-face {
+    font-family: 'Nexa';
+    src: url('../fonts/nexa/Nexa-Trial-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Raleway';
+    src: url('../fonts/raleway/Raleway-Light.ttf');
+}
+
+html{
+    height: 100%;
+}
+
+body {
+    background-color: var(--lightdark);
+    color: var(--white);
+    font-family: 'Nexa', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: var(--dark);
+    height: auto;
+}
+
+nav.nav-flex {
+    display: flex;
+}
+
+.a-nav {
+    color: var(--blue);
+    text-decoration: none;
+    margin: auto;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-family: 'Nexa' sans-serif;
+    font-size: 1.5rem;
+}
+
+.a-nav:active {
+    color: var(--blue);
+}
+
+.a-nav:hover {
+    color: var(--white);
+    -webkit-filter: drop-shadow(0px 0px 5px var(--white));
+    filter: drop-shadow(0px 0px 5px var(--white));
+    transition: 0.5s;
+}
+
+.a-nav::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: var(--white);
+
+    transition: width 0.5s;
+}
+
+.a-nav:hover::after {
+    width: 100%;
+    transition: width 0.5s;
+}
+
+.img-nav {
+    height: 5rem;
+    margin: 0.2rem;
+    align-items: center;
+}
+
+.img-nav:hover {
+    transition: 0.5s;
+    transform: matrix(1.1, 0, 0, 1.1, 0, 0);
+    -webkit-filter: drop-shadow(0px 0px 5px var(--grey));
+    filter: drop-shadow(0px 0px 5px var(--grey));
+}
+
+.img-nav:active {
+    transform: scale(0.8);
+}
+
+#popup{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    z-index: 99;
+    cursor: pointer;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+}
+
+#popup_content{
+    margin: auto;
+    min-width: 325px;
+    background: var(--dark);
+    cursor: default;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    padding-top: 20px;
+    border-top: 6px solid var(--grey);
+}
+
+.footer {
+    background-color: var(--dark);
+    margin-top: auto;
+    height: 100%;
+}
+
+.footer-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer p {
+    color: var(--blue);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    font-family: 'Raleway';
+}
+
+.img-footer {
+    height: 5rem;
+    align-items: center;
+}
+
+.img-footer:hover {
+    transition: 0.5s;
+    transform: matrix(1.1, 0, 0, 1.1, 0, 0);
+    -webkit-filter: drop-shadow(0px 0px 5px var(--grey));
+    filter: drop-shadow(0px 0px 5px var(--grey));
+}
+
+.img-footer:active {
+    transform: scale(0.8);
+}
+
+.centered_content{
+    width: 100%;
+    height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*Text*/
+.title {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.5em;
+    font-weight: 500;
+    color: #f5f5f5;
+    -webkit-filter: drop-shadow(0px 0px 5px var(--white));
+    filter: drop-shadow(0px 0px 5px var(--white));
+}
+
+/*Inputs*/
+.field {
+    margin-top: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5em;
+    background: #1c2942;
+    border-radius: 4px;
+    padding: .5em 1em;
+}
+
+.input-icon {
+    height: 1em;
+    width: 1em;
+    fill: var(--blue);
+}
+
+.input-field {
+    background: none;
+    border: none;
+    outline: none;
+    width: 100%;
+    color: var(--blue);
+    -webkit-filter: drop-shadow(0px 0px 5px var(--grey));
+    filter: drop-shadow(0px 0px 5px var(--grey));
+    font-size: large;
+}
+
+/*Buttons*/
+.btn {
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: .8em;
+    text-transform: uppercase;
+    padding: 0.6em 1.2em;
+    background-color: var(--white);
+    color: var(--blue);
+    box-shadow: 0 0px 20px 0px var(--blue);
+    transition: all .3s ease-in-out;
+    display: block;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.btn-link {
+    color: #f5f5f5;
+    display: block;
+    font-size: .75em;
+    transition: color .3s ease-out;
+    text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+    .img-nav {
+        height: 3rem;
+    }
+    .img-footer {
+        height: 3rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .img-nav {
+        height: 2rem;
+    }
+    .img-footer {
+        height: 2rem;
+    }
+}

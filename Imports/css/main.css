@@ -336,6 +336,46 @@ main > article > h1{
     background-color: white;
 }
 
+.svg_btn{
+    height: 25px;
+    width: 25px;
+    padding: 5px;
+    transition: fill 0.2s, background-color 0.2s;
+    border-radius: 4px;
+}
+
+.svg_blue{
+    border: 1px solid rgb(29, 125, 214);
+    fill: rgb(29, 125, 214);
+}
+
+.svg_blue:hover{
+    fill: white;
+    background-color: rgb(29, 125, 214);
+}
+
+.svg_red{
+    border: 1px solid red;
+    fill: red;
+}
+
+.svg_red:hover{
+    fill: white;
+    background-color: red;
+}
+
+.svg_green{
+    border: 1px solid rgb(30, 184, 51);
+    fill: rgb(30, 184, 51);
+    stroke: rgb(30, 184, 51);
+}
+
+.svg_green:hover{
+    fill: white;
+    stroke: white;
+    background-color: rgb(30, 184, 51);
+}
+
 @media screen and (max-width: 768px) {
     .img-nav {
         height: 3rem;

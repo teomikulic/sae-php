@@ -21,6 +21,7 @@ class QuizManager{
     const quizDescriptionMinimumLength = 15;
     const quizImgWidth = 300;
     const quizImgHeight = 200;
+    const maxShowedDexcriptionLength = 100;
 
     private static function assignQuestions(DatabaseAccessor $db, Quiz $quiz) : void{
         $quiz->setQuestions($db->createQuery(Question::class)

@@ -4,6 +4,7 @@ $baseNamespaces = [
     "Models" => "Models",
     "Enums" => "Enums",
     "Utils" => "Utils",
+    "Managers" => "Managers",
 ];
 
 spl_autoload_register('autoload');

@@ -2,9 +2,9 @@
 
 use Managers\UserManager;
 
-UserManager::loginRequired(false);
-
 require_once "Libs/requirements.php";
+
+UserManager::loginRequired(false);
 
 require_once "Imports/templates/header.html";
 

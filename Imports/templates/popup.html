@@ -1,27 +1,8 @@
-<head>
-    <link rel="stylesheet" href="./Imports/css/inscription.css">
-</head>
-<main class="centered_content">
-    <div class="card">
-        <h4 class="title"><?= siteName; ?></h4>
-        <h5 class="sub-title">Inscription</h5>
-        <form>
-            <div class="field">
-                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                </svg>
-                <input autocomplete="off" id="logfirstname" placeholder="Prénom" class="input-field" name="logfirstname"
-                    type="text">
-            </div>
-            <div class="field">
-                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                        d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                </svg>
-                <input autocomplete="off" id="loglastname" placeholder="Nom" class="input-field" name="loglastname"
-                    type="text">
-            </div>
+<div onclick="closePopup(event)" id="popup">
+    <div id="popup_content" onclick="event.stopPropagation()">
+        <h2 style="text-align: center;" class="title"><?= siteName; ?></h4>
+        <h3 style="text-align: center;" class="sub-title">Connexion</h5>
+        <form method="post">
             <div class="field">
                 <svg class="input-icon" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -40,8 +21,9 @@
                 <input autocomplete="off" id="logpass" placeholder="Mot de passe" class="input-field" name="logpass"
                     type="password">
             </div>
-            <button class="btn" type="submit">S'incrire</button>
-            <a href="#" class="btn-link">Deja un compte?</a>
+            
+            <button class="btn" type="submit">Se connecter</button>
+            <a href="#" class="btn-link">Pas encore de compte?</a>
         </form>
     </div>
-</main>
+</div>

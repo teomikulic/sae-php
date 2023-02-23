@@ -7,7 +7,7 @@ use Enums\RegistrationResult;
 use Models\User;
 
 class UserManager{
-    const mailRegex = "^[a-z_\\-0-9]+@[a-z\\-0-9]+\\.[a-z]+$";
+    const mailRegex = "^[a-z_\\-0-9.!#$%&'*+/=?^{|}~]+@[a-z\\-0-9]+\\.[a-z]+$";
     const passwordRegex = "(?=^[A-Za-z0-9-'+!]{3,24}$)(?=.+[A-Z])(?=.+[0-9])";
     const letterRegex = "[A-z-]+";
 

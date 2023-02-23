@@ -23,8 +23,12 @@
         </nav>
     </header>
 <?php
-if(!isset($_SESSION['user']) || !empty($_SESSION['user']))
+use Managers\UserManager;
+
+if(!UserManager::isConnected())
     require_once __DIR__."/popup.html";
+
+require_once __DIR__."/notification.html";
 ?>
 </body>
 </html>

@@ -60,7 +60,7 @@ class UserManager
         if (preg_match(self::mailRegex, $email)) {
             if (preg_match(self::passwordRegex, $password)) {
                 $cryptedPassword = hash("sha512", $password); // Cryptage du mot de passe
-                $user = self::getUser($db, fn ($u) => $u == $email && $u->password == $cryptedPassword); // Récupération de l'utilisateur dans la base de données
+                $user = self::getUser($db, fn ($u) => $u->email == $email && $u->password == $cryptedPassword); // Récupération de l'utilisateur dans la base de données
                 if(!is_null($user)){
 
                     // Stockage des données de l'utilisateur dans la session

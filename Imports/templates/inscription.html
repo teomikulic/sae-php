@@ -61,32 +61,34 @@ use Managers\NotificationManager;
 use Enums\RegistrationResult;
 
 if(isset($_POST['logemail']) && isset($_POST['logpass']) && isset($_POST['logpassv']) && isset($_POST['logfirstname']) && isset($_POST['loglastname'])){
-    switch(UserManager::register($db, $_POST['logemail'], $_POST['logpass'], $_POST['logpassv'], $_POST['logfirstname'], $_POST['loglastname'])){
-        case RegistrationResult::Success:
-            NotificationManager::notifySuccess("Merci de votre inscription sur ". siteName);
-            break;
-
-        case RegistrationResult::EmailFormat:
-            NotificationManager::notifyError("Le format de l'email est incorrect...");
-            break;
-
-        case RegistrationResult::EmailExists:
-            NotificationManager::notifyError("Un compte est déjà associé à cet email...");
-            break;
-
-        case RegistrationResult::PasswordFormat:
-            NotificationManager::notifyError("Le format du mot de passe est incorrect, il doit contenir entre 3 et 24 caractères, un chiffre et une majuscule au minimum...");
-            break;
-
-        case RegistrationResult::PasswordsDifferent:
-            NotificationManager::notifyError("Les mots de passes ne correspondent pas...");
-            break;
-
-        case RegistrationResult::SpecialCharsInNames:
-            NotificationManager::notifyError("Le nom et le prénom ne doivent pas contenir de caractères spéciaux...");
-            break;
+    if(!empty($_POST['logemail']) && !empty($_POST['logpass']) && !empty($_POST['logpassv']) && !empty($_POST['logfirstname']) && !empty($_POST['loglastname'])){
+        switch(UserManager::register($db, $_POST['logemail'], $_POST['logpass'], $_POST['logpassv'], $_POST['logfirstname'], $_POST['loglastname'])){
+            case RegistrationResult::Success:
+                NotificationManager::notifySuccess("Merci de votre inscription sur ". siteName ." !", "index.php");
+                break;
+    
+            case RegistrationResult::EmailFormat:
+                NotificationManager::notifyError("Le format de l'email est incorrect...");
+                break;
+    
+            case RegistrationResult::EmailExists:
+                NotificationManager::notifyError("Un compte est déjà associé à cet email...");
+                break;
+    
+            case RegistrationResult::PasswordFormat:
+                NotificationManager::notifyError("Le format du mot de passe est incorrect, il doit contenir entre 3 et 24 caractères, un chiffre et une majuscule au minimum...");
+                break;
+    
+            case RegistrationResult::PasswordsDifferent:
+                NotificationManager::notifyError("Les mots de passes ne correspondent pas...");
+                break;
+    
+            case RegistrationResult::SpecialCharsInNames:
+                NotificationManager::notifyError("Le nom et le prénom ne doivent pas contenir de caractères spéciaux...");
+                break;
+        }
     }
+    else
+        NotificationManager::notifyError("Veuillez remplir tous les champs");
 }
-else
-    NotificationManager::notifyError("Veuillez remplir tous les champs");
 ?>

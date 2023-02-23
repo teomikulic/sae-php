@@ -9,13 +9,13 @@ use GdImage;
 class FileManager{
     const imgWidthIndex = 0;
     const imgHeightIndex = 1;
-    const quizIllusPath = __DIR__."../Imports/img/uploads/quiz/";
-    const userIllusPath = __DIR__."../Imports/img/uploads/users/";
+    const quizIllusPath = "Imports/img/uploads/quiz/";
+    const userIllusPath = "Imports/img/uploads/users/";
 
     private static function getUploadPath(UploadType $uploadType) : string|false{
         return match($uploadType){
             UploadType::Quiz => self::quizIllusPath,
-            UploadType::User => self::userIllusPath,
+            UploadType::User => self::userIllusPath . (UserManager::isConnected() ? $_SESSION['id'] .'/' : ""),
             default => false
         };
     }
@@ -61,7 +61,7 @@ class FileManager{
     public static function uploadImage(UploadType $uploadType, mixed $file, array $allowedFileTypes = [], array $fileUploadOptions = []) : bool{
         $result = false;
 
-        $uploadPath = self::getUploadPath($uploadType);
+        $uploadPath = __DIR__ .'/../'. self::getUploadPath($uploadType);
         if($uploadPath !== false){
             if(!empty($fileUploadOptions)){
                 if(empty($allowedFileTypes) || self::isCorrectFileType($file, $allowedFileTypes)){

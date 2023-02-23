@@ -276,6 +276,18 @@ nav.nav-flex {
     transition: 200ms;
 }
 
+.user_ava{
+    margin: auto;
+    margin-right: 50px;
+}
+
+.user_ava > img{
+    width: 35px;
+    height: 35px;
+    border: 2px solid white;
+    border-radius: 100%;
+}
+
 @media screen and (max-width: 768px) {
     .img-nav {
         height: 3rem;

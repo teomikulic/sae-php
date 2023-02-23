@@ -34,7 +34,7 @@ class UserManager
                 if (preg_match(self::passwordRegex, $password)) {
                     if ($password == $passwordCheck) {
                         if (preg_match(self::letterRegex, $firstName) && preg_match(self::letterRegex, $lastName)) {
-                            $db->add(new User($email, hash("sha512", $password), $firstName, $lastName, null, 0))
+                            $db->add(new User($email, hash("sha512", $password), $firstName, $lastName, null, 0, null))
                                 ->commit(); // Ajout de l'utilisateur dans la base de données
                         } else
                             $result = RegistrationResult::SpecialCharsInNames; // Caractères spéciaux dans le nom ou prénom

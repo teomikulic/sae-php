@@ -24,6 +24,9 @@ use Managers\UserManager;
             <a href="" class="a-nav">Quizz</a>
             <?php
                 if(UserManager::isConnected()){
+                    if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] > 0)
+                        echo '<a href="" class="a-nav">Administration</a>';
+                      
                     echo '<a href="disconnect.php" class="a-nav">Deconnexion</a>';
 
                     $userAvatar = UserManager::getUserAvatarPath();

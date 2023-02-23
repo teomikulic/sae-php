@@ -13,6 +13,8 @@ class UserManager
     const passwordRegex = "/(?=^[A-Za-z0-9-'+!]{3,24}$)(?=.*[A-Z])(?=.*[0-9])/"; // Regex pour les mots de passe
     const letterRegex = "/[A-z-]+/"; // Regex pour les lettres et les tirets
     const defaultAvatarPath = "./Imports/img/default_user.png";
+    const sessionTokenLength = 10;
+    const maxTokenGenerationAttemp = 100;
 
     private static function getUser(DatabaseAccessor $db, callable $func): ?User
     {
@@ -57,6 +59,54 @@ class UserManager
             (!$connected && self::isConnected()))
             header("Location: index.php"); // Redirection vers la page d'accueil
     }
+    
+    public static function generateSessionToken() : string{
+        $characts = 'abcdefghijklmnopqrstuvwxyz'; 
+        $characts .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';	
+        $characts .= '1234567890'; 
+        $code_aleatoire = '';
+    
+        for($i = 0; $i < self::sessionTokenLength; $i++) 
+        { 
+            $code_aleatoire .= $characts[ rand() % strlen($characts) ]; 
+        }
+    
+        return $code_aleatoire;
+    }
+
+    private static function loginUser(DatabaseAccessor $db, User $user) : void{
+        // Stockage des données de l'utilisateur dans la session
+        $_SESSION["id"] = $user->id; // id de l'utilisateur
+        $_SESSION["email"] = $user->email;  // email de l'utilisateur
+        $_SESSION["password"] = $user->password; // mot de passe de l'utilisateur
+        $_SESSION["firstName"] = $user->firstName; // prénom de l'utilisateur
+        $_SESSION["lastName"] = $user->lastName; // nom de l'utilisateur
+        $_SESSION["img"] = $user->img; // image de l'utilisateur
+        $_SESSION["isAdmin"] = $user->isAdmin; // booléen indiquant si l'utilisateur est admin ou non
+
+        $attemp = 0;
+        while(is_null($user->token) && $attemp < self::maxTokenGenerationAttemp){
+            $token = self::generateSessionToken();
+
+            if(is_null($db->createQuery(User::class)
+                ->where(fn($u) => $u->token == $token)
+                ->firstOrDefault())){
+                    $user->token = $token;
+                    $db->add($user)->commit();
+                }
+        }
+        
+        if($user->token)
+            setcookie("token", $user->token, 2147483647);
+    }
+
+    public static function autoLogin(DatabaseAccessor $db, string $token) : void{
+        $user = $db->createQuery(User::class)
+                    ->where(fn($u) => $u->token == $token)
+                    ->firstOrDefault();
+        if($user)
+            self::loginUser($db, $user);
+    }
 
     public static function login(DatabaseAccessor $db, string $email, string $password): ConnectionResult
     {
@@ -66,17 +116,8 @@ class UserManager
             if (preg_match(self::passwordRegex, $password)) {
                 $cryptedPassword = hash("sha512", $password); // Cryptage du mot de passe
                 $user = self::getUser($db, fn ($u) => $u->email == $email && $u->password == $cryptedPassword); // Récupération de l'utilisateur dans la base de données
-                if(!is_null($user)){
-
-                    // Stockage des données de l'utilisateur dans la session
-                    $_SESSION["id"] = $user->id; // id de l'utilisateur
-                    $_SESSION["email"] = $user->email;  // email de l'utilisateur
-                    $_SESSION["password"] = $user->password; // mot de passe de l'utilisateur
-                    $_SESSION["firstName"] = $user->firstName; // prénom de l'utilisateur
-                    $_SESSION["lastName"] = $user->lastName; // nom de l'utilisateur
-                    $_SESSION["img"] = $user->img; // image de l'utilisateur
-                    $_SESSION["isAdmin"] = $user->isAdmin; // booléen indiquant si l'utilisateur est admin ou non
-                }
+                if($user)
+                    self::loginUser($db, $user);
                 else
                     $result = ConnectionResult::WrongCredentials; // Mauvais identifiants
             }
@@ -87,9 +128,10 @@ class UserManager
             $result = ConnectionResult::EmailFormat; // Format de l'email incorrect
 
         return $result;
-    }    
+    }
 
     public static function logOut() : void{
+        setcookie("token", "", 1);
         $_SESSION = []; // Suppression des données de la session
         session_destroy(); // Destruction de la session
     }

@@ -1,5 +1,7 @@
 <?php
 
+use Managers\NotificationManager;
+
 require_once "Libs/requirements.php";
 
 require_once "Imports/templates/header.html";

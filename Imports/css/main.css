@@ -232,6 +232,50 @@ nav.nav-flex {
     text-align: center;
 }
 
+/* NOTIFICATION */
+#notification{
+    position: fixed;
+    right: 50px;
+    top: 25px;
+    z-index: 20;
+    cursor: pointer;
+}
+
+#notification>div{
+    min-width: 14em;
+    transition: 200ms;
+    line-height: 40px;
+    background-color: rgb(56, 52, 73);
+    color: white;
+    border-radius: 0.25em;
+    border: 0.15em solid rgb(167, 229, 253);
+    opacity: 0.8;
+    cursor: hand;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+#notification>div:hover{
+    opacity: 1;
+}
+
+#notification_txt{
+    padding: 0.5em 0.8em 0 0.6em;
+    display: flex;
+}
+
+#notification_txt>img{
+    padding-right: 0.6em;
+    margin-top: 10px;
+}
+
+#notification_loading{
+    margin-top: 0.2em;
+    height: 0.4em;
+    width: 100%;
+    background-color: white;
+    transition: 200ms;
+}
+
 @media screen and (max-width: 768px) {
     .img-nav {
         height: 3rem;

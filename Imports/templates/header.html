@@ -25,7 +25,7 @@ use Managers\UserManager;
             <?php
                 if(UserManager::isConnected()){
                     if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] > 0)
-                        echo '<a href="" class="a-nav">Administration</a>';
+                        echo '<a href="admin.php" class="a-nav">Administration</a>';
                       
                     echo '<a href="disconnect.php" class="a-nav">Deconnexion</a>';
 

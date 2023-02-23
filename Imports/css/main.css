@@ -288,6 +288,54 @@ nav.nav-flex {
     border-radius: 100%;
 }
 
+main{
+    padding: 10px 20px;
+    width: 85vw;
+    min-height: 400px;
+    background-color: var(--dark);
+    margin: auto;
+    margin-top: 10vh;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--grey);
+}
+
+main > article > h1{
+    border-bottom: 1px solid white;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.dispatcher{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 0 5%;
+}
+
+.dispatcher > *{
+    flex: 1 1 0;
+    width: 0;
+    height: min-content;
+}
+
+.dispatcher > img{
+    flex: 0.8 0.8 0;
+}
+
+.link_btn{
+    text-decoration: none;
+    border: 2px solid white;
+    color: white;
+    padding: 8px 30px;
+    border-radius: 6px;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.link_btn:hover{
+    color: var(--dark);
+    background-color: white;
+}
+
 @media screen and (max-width: 768px) {
     .img-nav {
         height: 3rem;

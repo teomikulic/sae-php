@@ -9,9 +9,9 @@ use Models\User;
 
 class UserManager
 {
-    const mailRegex = "^[a-z_\\-0-9]+@[a-z\\-0-9]+\\.[a-z]+$"; // Regex pour les emails
-    const passwordRegex = "(?=^[A-Za-z0-9-'+!]{3,24}$)(?=.+[A-Z])(?=.+[0-9])"; // Regex pour les mots de passe
-    const letterRegex = "[A-z-]+"; // Regex pour les lettres et les tirets
+    const mailRegex = "/^[a-z_\\-0-9]+@[a-z\\-0-9]+\\.[a-z]+$/"; // Regex pour les emails
+    const passwordRegex = "/(?=^[A-Za-z0-9-'+!]{3,24}$)(?=.*[A-Z])(?=.*[0-9])/"; // Regex pour les mots de passe
+    const letterRegex = "/[A-z-]+/"; // Regex pour les lettres et les tirets
 
     private static function getUser(DatabaseAccessor $db, callable $func): ?User
     {
@@ -22,13 +22,12 @@ class UserManager
     public static function register(DatabaseAccessor $db, string $email, string $password, string $passwordCheck, string $firstName, string $lastName): RegistrationResult
     {
         $result = RegistrationResult::Success; // Succès par défaut
-
         if (preg_match(self::mailRegex, $email)) {
-            if (is_null(self::getUser($db, fn ($u) => $u == $email))) {
+            if (is_null(self::getUser($db, fn ($u) => $u->email == $email))) {
                 if (preg_match(self::passwordRegex, $password)) {
                     if ($password == $passwordCheck) {
                         if (preg_match(self::letterRegex, $firstName) && preg_match(self::letterRegex, $lastName)) {
-                            $db->add(new User($email, hash("sha512", $password), $firstName, $lastName, null, false))
+                            $db->add(new User($email, hash("sha512", $password), $firstName, $lastName, null, 0))
                                 ->commit(); // Ajout de l'utilisateur dans la base de données
                         } else
                             $result = RegistrationResult::SpecialCharsInNames; // Caractères spéciaux dans le nom ou prénom

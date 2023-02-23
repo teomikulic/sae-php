@@ -14,8 +14,8 @@ use Utils\CropUploadOption;
 use Utils\ResizeUploadOption;
 
 class QuizManager{
-    const questionRegex = "[A-z-?!,;.0-9 ]{3,120}";
-    const answerRegex = "[A-z-,.0-9+!-*/']+|\\d+";
+    const questionRegex = "/[A-z-?!,;.0-9 ]{3,120}/";
+    const answerRegex = "/[A-z-,.0-9+!-*/']+|\\d+/";
     const answersSeparator = "|";
     const quizNameMinimumLength = 3;
     const quizDescriptionMinimumLength = 15;

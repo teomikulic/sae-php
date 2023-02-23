@@ -37,7 +37,7 @@ if(isset($_POST['mail']) && isset($_POST['pass'])){
     if(!empty($_POST['mail']) && !empty($_POST['pass'])){
         switch(UserManager::login($db, $_POST['mail'], $_POST['pass'])){
             case ConnectionResult::Success:
-                NotificationManager::notifySuccess("Bienvenu ". $_SESSION['firstName'] ." !");
+                NotificationManager::notifySuccess("Bienvenu ". $_SESSION['firstName'] ." !", "index.php");
                 break;
     
             case ConnectionResult::EmailFormat:

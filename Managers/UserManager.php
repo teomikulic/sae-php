@@ -12,10 +12,15 @@ class UserManager
     const mailRegex = "/^[a-z_\\-0-9]+@[a-z\\-0-9]+\\.[a-z]+$/"; // Regex pour les emails
     const passwordRegex = "/(?=^[A-Za-z0-9-'+!]{3,24}$)(?=.*[A-Z])(?=.*[0-9])/"; // Regex pour les mots de passe
     const letterRegex = "/[A-z-]+/"; // Regex pour les lettres et les tirets
+    const defaultAvatarPath = "./Imports/img/default_user.png";
 
     private static function getUser(DatabaseAccessor $db, callable $func): ?User
     {
         return $db->createQuery(User::class)->where($func)->firstOrDefault(); // Récupération de l'utilisateur dans la base de données
+    }
+
+    public static function getUserAvatarPath() : ?string{
+        return self::isConnected() ? ($_SESSION['img'] ? FileManager::userIllusPath . $_SESSION['id'] . '/' . $_SESSION['img'] : self::defaultAvatarPath) : null;
     }
 
     // NB : Il n'y a pas de filter_var dû aux regex au dessus qui clean déjà

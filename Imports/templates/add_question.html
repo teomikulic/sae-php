@@ -1,0 +1,94 @@
+<?php
+use Managers\QuizManager;
+use Enums\QuestionType;
+
+$question = null;
+$quiz = null;
+if(isset($_GET['id']) && !empty($_GET['id'])){
+    $quiz = QuizManager::getQuiz($db, $_GET['id']);
+
+    if(isset($_GET['qid']) && !empty($_GET['qid']) && $quiz)
+        $question = $quiz->getQuestion(fn($q) => $q->id == $_GET['qid']);
+}
+    
+if(!isset($quiz))
+    header('Location: index.php');
+?>
+
+<main>
+    <article>
+        <h1>Ajouter une question</h1>
+        <section class="dispatcher">
+            <form method="post" enctype="multipart/form-data">
+                <div class="field">
+                    <input autocomplete="off" <?php if($question) echo 'value="'. $question->question .'"'; ?> placeholder="Question" class="input-field" name="question">
+                </div>
+                <select id="type" onchange="handleAnswers(this)" name="type">
+                    <?php
+                        foreach(QuestionType::cases() as $type)
+                            echo '<option '. ($question && $question->type == $type->value ? 'selected' : '') .' value="'. $type->value .'">'. $type->name .'</option>';
+                    ?>
+                </select>
+                <div id="answers" class="field" style="display: none;">
+                    <input autocomplete="off" <?php if($question) echo 'value="'. $question->answersCSV .'"'; ?> placeholder="Réponses séparés par un '<?= QuizManager::answersSeparator; ?>'" class="input-field" name="answers">
+                </div>
+                <div class="field">
+                    <input autocomplete="off" <?php if($question) echo 'value="'. $question->rightAnswer .'"'; ?> placeholder="Bonne(s) réponse(s), index si choix préfaits en partant de 0 et séparés par un '<?= QuizManager::answersSeparator; ?>'" class="input-field" name="rightAnswer">
+                </div>
+                <button class="btn" type="submit">Enregistrer</button>
+            </form>
+            <img src="./Imports/img/admin_illus.webp" alt="admin_illus">
+        </section>
+    </article>
+</main>
+
+<script>
+    const ANSWERS = document.getElementById("answers");
+    document.addEventListener("load", handleAnswers(document.getElementById("type")));
+    
+    function handleAnswers(elem){
+        if(ANSWERS != null){
+            if(elem.value > 1)
+                ANSWERS.style.display = "block";
+            else
+                ANSWERS.style.display = "none";
+        }
+    }
+</script>
+
+<?php
+use Enums\QuestionResult;
+use Managers\NotificationManager;
+
+if(isset($_POST['question']) && isset($_POST['type']) && isset($_POST['answers']) && isset($_POST['rightAnswer'])){
+    if(!empty($_POST['question']) && !empty($_POST['type']) && ($_POST['type'] == 1 || !empty($_POST['answers'])) && !empty($_POST['rightAnswer'])){
+        switch(QuizManager::checkAndValidateQuestion($db, $_GET['id'], $_POST['question'], $_POST['type'], $_POST['rightAnswer'], explode(QuizManager::answersSeparator, $_POST['answers']), $question)){
+            case QuestionResult::Success:
+                header("Location: manage_questions.php?id=". $_GET['id']);
+                break;
+    
+            case QuestionResult::UknownQuiz:
+                NotificationManager::notifyError("Le quiz n'existe pas...", "Location: manage_questions.php?id=". $_GET['id']);
+                break;
+
+            case QuestionResult::QuestionFormat:
+                NotificationManager::notifyError("La question contient des caractères invalides...");
+                break;
+
+            case QuestionResult::UknownQuestionType:
+                NotificationManager::notifyError("Le type de la question est invalide...");
+                break;
+
+            case QuestionResult::RightAnswerFormat:
+                NotificationManager::notifyError("La bonne réponse contient des caractères invalides...");
+                break;
+
+            case QuestionResult::AnswerFormat:
+                NotificationManager::notifyError("La réponse contient des caractères invalides...");
+                break;
+        }
+    }
+    else
+        NotificationManager::notifyError("Veuillez remplir tous les champs");
+}
+?>

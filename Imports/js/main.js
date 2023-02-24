@@ -47,3 +47,16 @@ function notify(message, imageName, location = ""){
         move();
     }
 }
+
+function readURL(input, imgId) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        var img = document.getElementById(imgId);
+
+        reader.onload = function (e) {
+            img.setAttribute('style', 'background-image: url(\''+e.target.result+'\'); background-position: center; background-size: cover; color: transparent;');
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}

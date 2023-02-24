@@ -164,6 +164,8 @@ nav.nav-flex {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: none;
+    background-color: transparent;
 }
 
 /*Text*/
@@ -187,6 +189,17 @@ nav.nav-flex {
     background: #1c2942;
     border-radius: 4px;
     padding: .5em 1em;
+}
+
+select{
+    margin-top: .5rem;
+    background: #1c2942;
+    gap: .5em;
+    width: 100%;
+    padding: .5em 1em;
+    border: none;
+    color: var(--blue);
+    font-size: large;
 }
 
 .input-icon {
@@ -222,6 +235,14 @@ nav.nav-flex {
     margin: auto;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--white);
+    color: var(--dark);
+    box-shadow: 0 8px 24px 0 rgb(16 39 112 / 20%);
+    cursor: pointer;
 }
 
 .btn-link {
@@ -342,6 +363,7 @@ main > article > h1{
     padding: 5px;
     transition: fill 0.2s, background-color 0.2s;
     border-radius: 4px;
+    cursor: pointer;
 }
 
 .svg_blue{
@@ -374,6 +396,22 @@ main > article > h1{
     fill: white;
     stroke: white;
     background-color: rgb(30, 184, 51);
+}
+
+.svg_btn_big{
+    height: 200px;
+    width: 200px;
+    border-width: 4px;
+}
+
+.add_btn{
+    display: block;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.add_btn > *{
+    padding: 0;
 }
 
 @media screen and (max-width: 768px) {

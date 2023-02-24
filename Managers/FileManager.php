@@ -12,14 +12,6 @@ class FileManager{
     const quizIllusPath = "Imports/img/uploads/quiz/";
     const userIllusPath = "Imports/img/uploads/users/";
 
-    private static function getUploadPath(UploadType $uploadType) : string|false{
-        return match($uploadType){
-            UploadType::Quiz => self::quizIllusPath,
-            UploadType::User => self::userIllusPath . (UserManager::isConnected() ? $_SESSION['id'] .'/' : ""),
-            default => false
-        };
-    }
-
     private static function isCorrectFileType(mixed $file, array $allowedFileTypes) : bool{
         $fileType = strtolower(mime_content_type($file["tmp_name"]));
 
@@ -58,11 +50,32 @@ class FileManager{
         return $result;
     }
 
+    private static function createPath($path) : void{
+        $str = explode("/", $path);
+        $dir = "";
+        foreach($str as $direc){
+            $dir .= $direc ."/";
+            if(!is_dir($dir)){
+                mkdir($dir, 0777, true);
+            }
+        }
+    }
+    
+    public static function getUploadPath(UploadType $uploadType) : string|false{
+        return  __DIR__ .'/../'. match($uploadType){
+            UploadType::Quiz => self::quizIllusPath,
+            UploadType::User => self::userIllusPath . (UserManager::isConnected() ? $_SESSION['id'] .'/' : ""),
+            default => false
+        };
+    }
+
     public static function uploadImage(UploadType $uploadType, mixed $file, array $allowedFileTypes = [], array $fileUploadOptions = []) : bool{
         $result = false;
 
-        $uploadPath = __DIR__ .'/../'. self::getUploadPath($uploadType);
+        $uploadPath = self::getUploadPath($uploadType);
         if($uploadPath !== false){
+            self::createPath($uploadPath);
+
             if(!empty($fileUploadOptions)){
                 if(empty($allowedFileTypes) || self::isCorrectFileType($file, $allowedFileTypes)){
                     $fileNameSplitted = explode(".", $file['name']);

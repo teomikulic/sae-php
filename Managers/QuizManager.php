@@ -15,7 +15,7 @@ use Utils\ResizeUploadOption;
 
 class QuizManager{
     const questionRegex = "/[A-z-?!,;.0-9 ]{3,120}/";
-    const answerRegex = "/[A-z-,.0-9+!-*/']+|\\d+/";
+    const answerRegex = "/^(?:[A-z-,.0-9+!-*\/' ;]+|\d+)$/";
     const answersSeparator = "|";
     const quizNameMinimumLength = 3;
     const quizDescriptionMinimumLength = 15;
@@ -52,16 +52,42 @@ class QuizManager{
         return $quiz;
     }
 
-    public static function createQuizz(DatabaseAccessor $db, string $name, string $description, mixed $img) : QuizAddingResult{
+    public static function deleteQuiz(DatabaseAccessor $db, int $quizId) : bool{
+        $result = false;
+        $quiz = self::getQuiz($db, $quizId);
+
+        if($quiz){
+            $quiz->delete($db);
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    public static function checkAndValidateQuiz(DatabaseAccessor $db, string $name, string $description, mixed $img, ?Quiz $quiz = null) : QuizAddingResult{
         $result = QuizAddingResult::Success;
 
         if(strlen($name) >= self::quizNameMinimumLength){
             if(strlen($description) >= self::quizDescriptionMinimumLength)
-                if(FileManager::uploadImage(UploadType::Quiz, $img, [FileType::JPG, FileType::PNG],
+                if((is_null($img) && $quiz) || FileManager::uploadImage(UploadType::Quiz, $img, [FileType::JPG, FileType::PNG],
                     [new CropUploadOption(), new ResizeUploadOption(self::quizImgWidth, self::quizImgHeight)])){
-                        $db->add(new Quiz(filter_var($name, FILTER_SANITIZE_SPECIAL_CHARS), filter_var($description, FILTER_SANITIZE_SPECIAL_CHARS),
-                        basename($img['name'])))
-                        ->commit();
+                        if($quiz){
+                            $quiz->name = filter_var($name, FILTER_SANITIZE_SPECIAL_CHARS);
+                            $quiz->description = filter_var($description, FILTER_SANITIZE_SPECIAL_CHARS);
+
+                            if($img){
+                                $path = FileManager::getUploadPath(UploadType::Quiz);
+                                if($path){
+                                    unlink($path . $quiz->imgName);
+                                    $quiz->imgName = basename($img['name']);
+                                }
+                            }
+                        }
+                        else
+                            $quiz = new Quiz(filter_var($name, FILTER_SANITIZE_SPECIAL_CHARS), filter_var($description, FILTER_SANITIZE_SPECIAL_CHARS),
+                                basename($img['name']));
+                        
+                        $db->add($quiz)->commit();
                     }
                     else
                         $result = QuizAddingResult::ImageError;
@@ -74,7 +100,8 @@ class QuizManager{
         return $result;
     }
 
-    public static function createQuestion(DatabaseAccessor $db, int $quizId, string $question, int $questionType, string $rightAnswer, array $answers) : QuestionResult{
+    public static function checkAndValidateQuestion(DatabaseAccessor $db, int $quizId, string $question, int $questionType, string $rightAnswer, array $answers,
+        ?Question $quest = null) : QuestionResult{
         $result = QuestionResult::Success;
 
         if(!is_null($db->createQuery(Quiz::class)->where(fn($x) => $x->id == $quizId)->firstOrDefault())){
@@ -82,17 +109,26 @@ class QuizManager{
                 if(!is_null(QuestionType::tryFrom($questionType))){
                     if(preg_match(self::answerRegex, $rightAnswer)){
                         foreach($answers as $answer){
-                            if(preg_match(self::answerRegex, $answer || !is_string($answer))){
-                                $result = QuestionResult::AnswerFormat;
-                                break;
-                            }
+                            if(!empty($answer))
+                                if(!is_string($answer) || !preg_match(self::answerRegex, $answer)){
+                                    $result = QuestionResult::AnswerFormat;
+                                    break;
+                                }
                         }
 
                         if($result == QuestionResult::Success){
                             $answersText = implode(self::answersSeparator, $answers);
 
-                            $db->add(new Question($quizId, $question, $questionType, $rightAnswer, $answersText))
-                                ->commit();
+                            if($quest){
+                                $quest->question = $question;
+                                $quest->type = $questionType;
+                                $quest->rightAnswer = filter_var($rightAnswer, FILTER_SANITIZE_SPECIAL_CHARS);
+                                $quest->answersCSV = filter_var($answersText, FILTER_SANITIZE_SPECIAL_CHARS);
+                            }
+                            else
+                                $quest = new Question($quizId, $question, $questionType, filter_var($rightAnswer, FILTER_SANITIZE_SPECIAL_CHARS), filter_var($answersText, FILTER_SANITIZE_SPECIAL_CHARS));
+
+                            $db->add($quest)->commit();
                         }
                     }
                     else

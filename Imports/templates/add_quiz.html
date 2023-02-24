@@ -1,0 +1,61 @@
+<?php
+use Managers\QuizManager;
+
+$quiz = null;
+if(isset($_GET['id']) && !empty($_GET['id']))
+    $quiz = QuizManager::getQuiz($db, $_GET['id']);
+?>
+
+<main>
+    <article>
+        <h1>Ajouter un quiz</h1>
+        <section class="dispatcher">
+            <form method="post" enctype="multipart/form-data">
+                <div class="field">
+                    <input autocomplete="off" <?php if($quiz) echo 'value="'. $quiz->name .'"'; ?> placeholder="Nom" class="input-field" name="name">
+                </div>
+                <div class="field">
+                    <textarea autocomplete="off" placeholder="Description" class="input-field" name="description" style="resize: none; height: 150px;"><?php if($quiz) echo $quiz->description; ?></textarea>
+                </div>
+                <p>Illustration</p>
+                <label id="video_poster" class="add_btn svg_btn svg_btn_big svg_green" for="upload_but_p">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                      </svg>                      
+                </label>
+                <input onchange="readURL(this, 'video_poster')" accept=".jpeg, .jpg, .png" name="illus" id="upload_but_p" style="display: none;" type="file">
+                <button class="btn" type="submit">Enregistrer</button>
+            </form>
+            <img src="./Imports/img/admin_illus.webp" alt="admin_illus">
+        </section>
+    </article>
+</main>
+
+<?php
+use Enums\QuizAddingResult;
+use Managers\NotificationManager;
+
+if(isset($_POST['name']) && isset($_POST['description']) && ($quiz || isset($_FILES['illus']))){
+    if(!empty($_POST['name']) && !empty($_POST['description']) && ($quiz || $_FILES['illus']['size'] == 0)){
+        switch(QuizManager::checkAndValidateQuiz($db, $_POST['name'], $_POST['description'], ($_FILES['illus']['size'] == 0 ? null : $_FILES['illus']), $quiz)){
+            case QuizAddingResult::Success:
+                header("Location: manage_quiz.php");
+                break;
+    
+            case QuizAddingResult::NameTooShort:
+                NotificationManager::notifyError("Le nom du quiz est trop court, il doit faire minimum 3 caractères...");
+                break;
+    
+            case QuizAddingResult::DescriptionTooShort:
+                NotificationManager::notifyError("La description est trop courte, elle doit faire minimum 15 caractères...");
+                break;
+    
+            case QuizAddingResult::ImageError:
+                NotificationManager::notifyError("Une erreur est survenu lors de l'envoi de l'image, veuillez contacter l'administrateur du site...");
+                break;
+        }
+    }
+    else
+        NotificationManager::notifyError("Veuillez remplir tous les champs");
+}
+?>

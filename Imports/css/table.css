@@ -1,0 +1,21 @@
+table{
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid white;
+}
+
+thead{
+    background-color: rgb(18, 64, 116);
+}
+
+thead > tr > th{
+    padding: 10px 20px;
+}
+
+tbody > tr:nth-child(even){
+    background-color: rgb(18, 51, 88);
+}
+
+tbody > tr > th{
+    padding: 10px;
+}

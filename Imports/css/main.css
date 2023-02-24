@@ -164,6 +164,8 @@ nav.nav-flex {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: none;
+    background-color: transparent;
 }
 
 /*Text*/
@@ -187,6 +189,17 @@ nav.nav-flex {
     background: #1c2942;
     border-radius: 4px;
     padding: .5em 1em;
+}
+
+select{
+    margin-top: .5rem;
+    background: #1c2942;
+    gap: .5em;
+    width: 100%;
+    padding: .5em 1em;
+    border: none;
+    color: var(--blue);
+    font-size: large;
 }
 
 .input-icon {
@@ -222,6 +235,14 @@ nav.nav-flex {
     margin: auto;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: var(--white);
+    color: var(--dark);
+    box-shadow: 0 8px 24px 0 rgb(16 39 112 / 20%);
+    cursor: pointer;
 }
 
 .btn-link {
@@ -286,6 +307,111 @@ nav.nav-flex {
     height: 35px;
     border: 2px solid white;
     border-radius: 100%;
+}
+
+main{
+    padding: 10px 20px;
+    width: 85vw;
+    min-height: 400px;
+    background-color: var(--dark);
+    margin: auto;
+    margin-top: 10vh;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--grey);
+}
+
+main > article > h1{
+    border-bottom: 1px solid white;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.dispatcher{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 0 5%;
+}
+
+.dispatcher > *{
+    flex: 1 1 0;
+    width: 0;
+    height: min-content;
+}
+
+.dispatcher > img{
+    flex: 0.8 0.8 0;
+}
+
+.link_btn{
+    text-decoration: none;
+    border: 2px solid white;
+    color: white;
+    padding: 8px 30px;
+    border-radius: 6px;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.link_btn:hover{
+    color: var(--dark);
+    background-color: white;
+}
+
+.svg_btn{
+    height: 25px;
+    width: 25px;
+    padding: 5px;
+    transition: fill 0.2s, background-color 0.2s;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.svg_blue{
+    border: 1px solid rgb(29, 125, 214);
+    fill: rgb(29, 125, 214);
+}
+
+.svg_blue:hover{
+    fill: white;
+    background-color: rgb(29, 125, 214);
+}
+
+.svg_red{
+    border: 1px solid red;
+    fill: red;
+}
+
+.svg_red:hover{
+    fill: white;
+    background-color: red;
+}
+
+.svg_green{
+    border: 1px solid rgb(30, 184, 51);
+    fill: rgb(30, 184, 51);
+    stroke: rgb(30, 184, 51);
+}
+
+.svg_green:hover{
+    fill: white;
+    stroke: white;
+    background-color: rgb(30, 184, 51);
+}
+
+.svg_btn_big{
+    height: 200px;
+    width: 200px;
+    border-width: 4px;
+}
+
+.add_btn{
+    display: block;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.add_btn > *{
+    padding: 0;
 }
 
 @media screen and (max-width: 768px) {

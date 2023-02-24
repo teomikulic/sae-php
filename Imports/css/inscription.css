@@ -14,13 +14,6 @@
     transition: opacity .3s;
 }
 
-.btn:hover {
-    background-color: var(--white);
-    color: var(--dark);
-    box-shadow: 0 8px 24px 0 rgb(16 39 112 / 20%);
-    cursor: pointer;
-}
-
 .btn-link:hover {
     color: #ffeba7;
 }

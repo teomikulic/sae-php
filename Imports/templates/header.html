@@ -21,11 +21,11 @@ use Managers\UserManager;
         <nav class="nav-flex">
             <a href="index.php" class="a-nav-img"><img src="./Imports/img/logo.png" alt="OpenQuizz" class="img-nav"></a>
             <a href="index.php" class="a-nav">Accueil</a>
-            <a href="" class="a-nav">Quizz</a>
+            <a href="" class="a-nav">Quiz</a>
             <?php
                 if(UserManager::isConnected()){
                     if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] > 0)
-                        echo '<a href="" class="a-nav">Administration</a>';
+                        echo '<a href="admin.php" class="a-nav">Administration</a>';
                       
                     echo '<a href="disconnect.php" class="a-nav">Deconnexion</a>';
 

@@ -19,6 +19,6 @@ class Question{
         #[Size(120)] public string $question,
         #[MysqlType(MysqlTypeEnum::TinyInt)] public int $type,
         #[MysqlType(MysqlTypeEnum::TinyText)] public string $rightAnswer,
-        public string $answersCSV
+        public ?string $answersCSV
     ) {}
 }

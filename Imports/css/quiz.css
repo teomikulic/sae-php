@@ -1,0 +1,25 @@
+.quiz_card{
+    display: block;
+    box-shadow: 0 6px 12px rgba(255, 255, 255, 0.2);
+    width: fit-content;
+    height: fit-content;
+    border-radius: 6px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    opacity: 0.85;
+    transition: 0.2s opacity;
+    height: 400px;
+}
+
+.quiz_card:hover{
+    opacity: 1;
+}
+
+.quiz_card_infos{
+    padding: 5px 10px;
+}
+
+.quiz_card_infos h1{
+    text-align: center;
+}

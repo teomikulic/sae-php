@@ -1,0 +1,103 @@
+<?php
+use Managers\QuizManager;
+
+$quiz = null;
+if(isset($_GET['id']) && !empty($_GET['id']))
+    $quiz = QuizManager::getQuiz($db, $_GET['id']);
+    
+if(empty($quiz) || !$quiz->isAvailable() || !$_POST)
+    header('Location: index.php');
+
+use Enums\QuestionType;
+
+$contentBuffer = "";
+$score = 0;
+$questions = $quiz->getQuestions();
+
+foreach($questions as $question){
+    $questionType = QuestionType::tryFrom($question->type);
+    if($questionType){
+        $content = "";
+        $questIdStr = strval($question->id);
+
+        switch($questionType){
+            case QuestionType::UserInput:
+                $content .= $question->rightAnswer;
+                if(isset($_POST[$questIdStr])){
+                    $content .= '<br>Votre réponse : '. $_POST[$questIdStr];
+
+                    if(strtolower($question->rightAnswer) == strtolower($_POST[$questIdStr])){
+                        $score++;
+                        $content .= " ✔";
+                    }
+                }
+                break;
+            
+            case QuestionType::SingleChoice:
+            case QuestionType::MultipleChoices:
+                $i = 0;
+                $answs = [];
+                $rightAnswers = explode(QuizManager::answersSeparator, $question->rightAnswer);
+                $answers = explode(QuizManager::answersSeparator, $question->answersCSV);
+                
+                foreach($answers as $answ){
+                    if(in_array(strval($i), $rightAnswers))
+                        $answs[] = $answ ."(Choix n.". ($i + 1) .")";
+                    $i++;
+                }
+
+                $content .= implode(', ', $answs);
+
+                if(isset($_POST[$questIdStr])){
+                    if($questionType == QuestionType::SingleChoice){
+                        $answInt = intval($_POST[$questIdStr]);
+                        if($answInt >= 0 && $answInt < count($answers)){
+                            $content .= '<br>Votre réponse : '. $answers[$answInt];
+
+                            if(in_array($answInt, $rightAnswers)){
+                                $score++;
+                                $content .= " ✔";
+                            }
+                        }
+                    }
+                    else if(is_array($_POST[$questIdStr])){
+                        $userAns = [];
+                        $goodAns = 0;
+
+                        foreach($_POST[$questIdStr] as $ans){
+                            $answInt = intval($ans);
+                            if($answInt >= 0 && $answInt < count($answers)){
+                                $userAns[] = $answers[$answInt];
+                                
+                                if(in_array($ans, $rightAnswers))
+                                    $goodAns++;
+                            }
+                        }
+
+                        $content .= '<br>Votre réponse : '. implode(', ', $userAns);
+
+                        if($goodAns == count($rightAnswers)){
+                            $score++;
+                            $content .= " ✔";
+                        }
+                    }
+                }
+                break;
+        }
+        $contentBuffer .= '<b><label for="'. $question->id .'">'. $question->question .'</label></b><br>';
+        $contentBuffer .= 'Bonne réponse(s) : '. $content .'<br><br>';
+    }
+}
+
+?>
+
+<main>
+    <article>
+        <h1><?= $quiz->name; ?></h1>
+        <section>
+            <h2>Votre score : <?= $score .'/'. count($questions) ?></h2>
+            <?= $contentBuffer; ?>
+            <a href="quiz.php" style="width: fit-content; text-decoration: none;" class="btn" type="submit">Retour aux quiz</a>
+        </section>
+    </article>
+</main>

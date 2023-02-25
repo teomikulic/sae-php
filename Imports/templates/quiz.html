@@ -1,0 +1,30 @@
+<head>
+    <link rel="stylesheet" href="./Imports/css/quiz.css">
+</head>
+
+<main>
+    <article>
+        <h1>Selectionnez un quiz !</h1>
+        <section>
+            <?php
+                use Managers\QuizManager;
+                use Managers\FileManager;
+                use Enums\UploadType;
+
+                foreach(QuizManager::getQuizzes($db) as $quiz){
+                    if($quiz->isAvailable()){
+                        echo '
+                        <a href="play.php?id='. $quiz->id .'" class="quiz_card">
+                            <div style="background: center center/cover url('. (FileManager::quizIllusPath . $quiz->imgName) .'); height: '. QuizManager::quizImgHeight .'px; width: '. QuizManager::quizImgWidth .'px;"></div>
+                            <div class="quiz_card_infos">
+                                <h1>'. $quiz->name .'</h1>
+                                <p>'. (strlen($quiz->description) > QuizManager::maxShowedDexcriptionLength ? substr($quiz->description, 0, QuizManager::maxShowedDexcriptionLength) ."[...]" : $quiz->description) .'</p>
+                            </div>
+                        </a>
+                            ';
+                    }
+                }
+            ?>
+        </section>
+    </article>
+</main>

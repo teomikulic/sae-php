@@ -11,7 +11,7 @@ if(isset($_GET['id']) && !empty($_GET['id'])){
         $question = $quiz->getQuestion(fn($q) => $q->id == $_GET['qid']);
 }
     
-if(!isset($quiz))
+if(empty($quiz))
     header('Location: index.php');
 ?>
 
@@ -61,7 +61,7 @@ use Enums\QuestionResult;
 use Managers\NotificationManager;
 
 if(isset($_POST['question']) && isset($_POST['type']) && isset($_POST['answers']) && isset($_POST['rightAnswer'])){
-    if(!empty($_POST['question']) && !empty($_POST['type']) && ($_POST['type'] == 1 || !empty($_POST['answers'])) && !empty($_POST['rightAnswer'])){
+    if(!empty($_POST['question']) && !empty($_POST['type']) && ($_POST['type'] == 1 || !empty($_POST['answers'])) && strlen($_POST['rightAnswer']) > 0){
         switch(QuizManager::checkAndValidateQuestion($db, $_GET['id'], $_POST['question'], $_POST['type'], $_POST['rightAnswer'], explode(QuizManager::answersSeparator, $_POST['answers']), $question)){
             case QuestionResult::Success:
                 header("Location: manage_questions.php?id=". $_GET['id']);

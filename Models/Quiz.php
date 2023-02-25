@@ -21,7 +21,7 @@ class Quiz{
     ){}
 
     public function isAvailable() : bool{
-        return !is_null($this->questions);
+        return isset($this->questions) && $this->questions;
     }
 
     public function getQuestionsCount() : int{ 

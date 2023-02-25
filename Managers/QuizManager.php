@@ -107,28 +107,37 @@ class QuizManager{
         if(!is_null($db->createQuery(Quiz::class)->where(fn($x) => $x->id == $quizId)->firstOrDefault())){
             if(preg_match(self::questionRegex, $question)){
                 if(!is_null(QuestionType::tryFrom($questionType))){
-                    if(preg_match(self::answerRegex, $rightAnswer)){
-                        foreach($answers as $answer){
-                            if(!empty($answer))
-                                if(!is_string($answer) || !preg_match(self::answerRegex, $answer)){
-                                    $result = QuestionResult::AnswerFormat;
-                                    break;
-                                }
+                    if(strlen($rightAnswer) > 0){
+                        foreach(explode(self::answersSeparator, $rightAnswer) as $rightAns){
+                            if(!preg_match(self::answerRegex, $rightAns)){
+                                $result = QuestionResult::RightAnswerFormat;
+                                break;
+                            }
                         }
 
                         if($result == QuestionResult::Success){
-                            $answersText = implode(self::answersSeparator, $answers);
-
-                            if($quest){
-                                $quest->question = $question;
-                                $quest->type = $questionType;
-                                $quest->rightAnswer = filter_var($rightAnswer, FILTER_SANITIZE_SPECIAL_CHARS);
-                                $quest->answersCSV = filter_var($answersText, FILTER_SANITIZE_SPECIAL_CHARS);
+                            foreach($answers as $answer){
+                                if(strlen($answer) > 0)
+                                    if(!is_string($answer) || !preg_match(self::answerRegex, $answer)){
+                                        $result = QuestionResult::AnswerFormat;
+                                        break;
+                                    }
                             }
-                            else
-                                $quest = new Question($quizId, $question, $questionType, filter_var($rightAnswer, FILTER_SANITIZE_SPECIAL_CHARS), filter_var($answersText, FILTER_SANITIZE_SPECIAL_CHARS));
-
-                            $db->add($quest)->commit();
+    
+                            if($result == QuestionResult::Success){
+                                $answersText = implode(self::answersSeparator, $answers);
+    
+                                if($quest){
+                                    $quest->question = $question;
+                                    $quest->type = $questionType;
+                                    $quest->rightAnswer = filter_var($rightAnswer, FILTER_SANITIZE_SPECIAL_CHARS);
+                                    $quest->answersCSV = filter_var($answersText, FILTER_SANITIZE_SPECIAL_CHARS);
+                                }
+                                else
+                                    $quest = new Question($quizId, $question, $questionType, filter_var($rightAnswer, FILTER_SANITIZE_SPECIAL_CHARS), filter_var($answersText, FILTER_SANITIZE_SPECIAL_CHARS));
+    
+                                $db->add($quest)->commit();
+                            }
                         }
                     }
                     else

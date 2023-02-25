@@ -11,7 +11,6 @@ use BubbleORM\Enums\MysqlTypeEnum;
 
 #[Table("questions")]
 class Question{
-    #[Ignore] private ?array $answers;
     #[Key] public int $id;
 
     public function __construct(

@@ -5,7 +5,7 @@ use Enums\QuestionType;
 if(isset($_GET['id']) && !empty($_GET['id']))
     $quiz = QuizManager::getQuiz($db, $_GET['id']);
 
-if(!isset($quiz))
+if(empty($quiz))
     header('Location: index.php');
 ?>
 

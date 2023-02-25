@@ -1,0 +1,60 @@
+<?php
+use Managers\QuizManager;
+
+$quiz = null;
+if(isset($_GET['id']) && !empty($_GET['id']))
+    $quiz = QuizManager::getQuiz($db, $_GET['id']);
+    
+if(empty($quiz) || !$quiz->isAvailable())
+    header('Location: index.php');
+?>
+
+<main>
+    <article>
+        <h1><?= $quiz->name; ?></h1>
+        <section>
+            <form action="result.php?id=<?=$_GET['id']; ?>" method="post">
+                <?php
+                    use Enums\QuestionType;
+
+                    foreach($quiz->getQuestions() as $question){
+                        $questionType = QuestionType::tryFrom($question->type);
+                        if($questionType){
+                            $content = "";
+
+                            switch($questionType){
+                                case QuestionType::UserInput:
+                                    $content .= '<div style="width: 50%" class="field"><input class="input-field" name="'. $question->id .'" id="'. $question->id .'" type="text"></div>';
+                                    break;
+
+                                case QuestionType::SingleChoice:
+                                    $i = 0;
+                                    foreach(explode(QuizManager::answersSeparator, $question->answersCSV) as $answ){
+                                        $content .= '<span style="display: block;"><label for="'. $question->id .'+'. $i .'">'. $answ .'</label><input type="radio" name="'. $question->id .'" id="'. $question->id .'+'. $i .'" value="'. $i .'"></span>';
+                                        $i++;
+                                    }
+                                    break;
+
+                                case QuestionType::MultipleChoices:
+                                    $i = 0;
+                                    foreach(explode(QuizManager::answersSeparator, $question->answersCSV) as $answ){
+                                        $content .= '<span style="display: block;"><label for="'. $question->id .'+'. $i .'">'. $answ .'</label><input type="checkbox" name="'. $question->id .'[]" id="'. $question->id .'+'. $i .'" value="'. $i .'"></span>';
+                                        $i++;
+                                    }
+                                    break;
+                            }
+
+                            if(!empty($content)){
+                                echo '<label for="'. $question->id .'">'. $question->question .'</label><br>';
+                                echo $content .'<br>';
+                            }
+                            else
+                                header('Location: index.php');
+                        }
+                    }
+                ?>
+                <button class="btn" type="submit">Valider mes réponses</button>
+            </form>
+        </section>
+    </article>
+</main>

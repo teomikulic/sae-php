@@ -4,8 +4,12 @@ namespace Managers;
 
 use BubbleORM\DatabaseAccessor;
 use Enums\ConnectionResult;
+use Enums\FileType;
 use Enums\RegistrationResult;
+use Enums\UploadType;
 use Models\User;
+use Utils\CropUploadOption;
+use Utils\ResizeUploadOption;
 
 class UserManager
 {
@@ -15,6 +19,7 @@ class UserManager
     const defaultAvatarPath = "./Imports/img/default_user.png";
     const sessionTokenLength = 10;
     const maxTokenGenerationAttemp = 100;
+    const imgSize = 100;
 
     private static function getUser(DatabaseAccessor $db, callable $func): ?User
     {
@@ -78,7 +83,6 @@ class UserManager
         // Stockage des données de l'utilisateur dans la session
         $_SESSION["id"] = $user->id; // id de l'utilisateur
         $_SESSION["email"] = $user->email;  // email de l'utilisateur
-        $_SESSION["password"] = $user->password; // mot de passe de l'utilisateur
         $_SESSION["firstName"] = $user->firstName; // prénom de l'utilisateur
         $_SESSION["lastName"] = $user->lastName; // nom de l'utilisateur
         $_SESSION["img"] = $user->img; // image de l'utilisateur
@@ -134,5 +138,29 @@ class UserManager
         setcookie("token", "", 1);
         $_SESSION = []; // Suppression des données de la session
         session_destroy(); // Destruction de la session
+    }
+
+    public static function changeImage(DatabaseAccessor $db, int $userId, mixed $img) : void{
+        $user = self::getUser($db, fn($x) => $x->id == $userId);
+
+        if($user){
+            FileManager::uploadImage(UploadType::User, $img, [FileType::JPG, FileType::PNG],
+                    [new CropUploadOption(), new ResizeUploadOption(self::imgSize, self::imgSize)]);
+            $user->img = $img['name'];
+            $db->add($user)->commit();
+        }
+    }
+
+    public static function changePassword(DatabaseAccessor $db, int $userId, string $newPass) : bool{
+        $result = false;
+        $user = self::getUser($db, fn($x) => $x->id == $userId);
+
+        if($user)
+            if(preg_match(self::passwordRegex, $newPass)){
+                $user->password = hash("sha512", $newPass);
+                $result = true;
+            }
+
+        return $result;
     }
 }

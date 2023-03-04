@@ -1,0 +1,32 @@
+<main>
+    <article>
+        <h1><?= $_SESSION["firstName"] . ' ' . $_SESSION["lastName"] ?> - Image</h1>
+        <section>
+            <h2>Choissez une image</h2>
+            <div class="dispatcher">
+                <form method="post" enctype="multipart/form-data">
+                    <label id="video_poster" class="add_btn svg_btn svg_btn_big svg_green" for="upload_but_p">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                          </svg>                      
+                    </label>
+                    <input onchange="readURL(this, 'video_poster')" accept=".jpeg, .jpg, .png" name="illus" id="upload_but_p" style="display: none;" type="file">
+                    <button class="btn" type="submit">Enregistrer</button>
+                </form>
+                <img src="Imports/img/admin_illus.webp" alt="illus_user">
+            </div>
+            
+        </section>
+    </article>
+</main>
+
+<?php
+use Managers\UserManager;
+use Managers\NotificationManager;
+
+if(isset($_FILES['illus']) && $_FILES['illus']['size'] > 0){
+    UserManager::changeImage($db, $_SESSION['id'], $_FILES['illus']);
+    $_SESSION["img"] = $_FILES['illus']['name'];
+    NotificationManager::notifySuccess("Votre image a bien été changé.", "account.php");
+}
+?>

@@ -10,7 +10,7 @@ define("siteName", "OpenQuizz");
 define("dbHost", "127.0.0.1");
 define("dbUser", "root");
 define("dbPassword", "");
-define("dbName", "ecole");
+define("dbName", "saephp");
 
 session_start();
 $db = new DatabaseAccessor(dbHost, dbUser, dbPassword, dbName, DatabaseCreationMode::Create);

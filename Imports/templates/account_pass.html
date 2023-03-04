@@ -1,0 +1,29 @@
+<main>
+    <article>
+        <h1><?= $_SESSION["firstName"] . ' ' . $_SESSION["lastName"] ?> - Mot de passe</h1>
+        <section>
+            <h2>Choissez un nouveau mot de passe</h2>
+            <div class="dispatcher">
+                <form method="post">
+                    <div class="field">
+                        <input autocomplete="off" type="password" placeholder="Nouveau mot de passe" class="input-field" name="pass">
+                    </div>
+                    <button class="btn" type="submit">Enregistrer</button>
+                </form>
+                <img src="Imports/img/admin_illus.webp" alt="illus_user">
+            </div>
+        </section>
+    </article>
+</main>
+
+<?php
+use Managers\UserManager;
+use Managers\NotificationManager;
+
+if(!empty($_POST['pass'])){
+    if(UserManager::changePassword($db, $_SESSION['id'], $_POST['pass']))
+        NotificationManager::notifySuccess("Votre mot de passe a bien été changé.", "account.php");
+    else
+        NotificationManager::notifyError("Le format du mot de passe est incorrect, il doit contenir entre 3 et 24 caractères, un chiffre et une majuscule au minimum...");
+}
+?>

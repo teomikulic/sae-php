@@ -4,8 +4,12 @@ namespace Managers;
 
 use BubbleORM\DatabaseAccessor;
 use Enums\ConnectionResult;
+use Enums\FileType;
 use Enums\RegistrationResult;
+use Enums\UploadType;
 use Models\User;
+use Utils\CropUploadOption;
+use Utils\ResizeUploadOption;
 
 class UserManager
 {
@@ -15,6 +19,7 @@ class UserManager
     const defaultAvatarPath = "./Imports/img/default_user.png";
     const sessionTokenLength = 10;
     const maxTokenGenerationAttemp = 100;
+    const imgSize = 100;
 
     private static function getUser(DatabaseAccessor $db, callable $func): ?User
     {
@@ -134,5 +139,16 @@ class UserManager
         setcookie("token", "", 1);
         $_SESSION = []; // Suppression des données de la session
         session_destroy(); // Destruction de la session
+    }
+
+    public static function changeImage(DatabaseAccessor $db, int $userId, mixed $img) : void{
+        $user = self::getUser($db, fn($x) => $x->id == $userId);
+
+        if($user){
+            FileManager::uploadImage(UploadType::User, $img, [FileType::JPG, FileType::PNG],
+                    [new CropUploadOption(), new ResizeUploadOption(self::imgSize, self::imgSize)]);
+            $user->img = $img['name'];
+            $db->add($user)->commit();
+        }
     }
 }

@@ -8,15 +8,21 @@
                     <div class="infos dispatcher">
                         <div>
                             <p><?= $_SESSION["email"] ?></p>
-                            <p><?= $_SESSION["firstName"] ?></p>
-                            <p><?= $_SESSION["lastName"] ?></p>
+                            <p><?= $_SESSION["isAdmin"] ? "Administrateur" : "Joueur" ?></p>
                         </div>
                         <div>
-                            <p><?= $_SESSION["isAdmin"] ? "Administrateur" : "Joueur" ?></p>
+                            <p><?= $_SESSION["firstName"] . ' ' . $_SESSION["lastName"] ?></p>
+                            <?php
+                                use Managers\UserManager;
+
+                                $userAvatar = UserManager::getUserAvatarPath();
+                                if(!is_null($userAvatar))
+                                    echo '<img style="border-radius: 100%; border: 1px solid white; width: '.UserManager::imgSize.'px; height: '.UserManager::imgSize.'px;" src="'. $userAvatar .'" alt="user_illus"></a>';
+                            ?>
                         </div>
                     </div><br>
                     <a href="manage_quiz.php" class="link_btn">Changer votre mot de passe</a>
-                    <a href="manage_quiz.php" class="link_btn">Changer votre photo</a>
+                    <a href="account_img.php" class="link_btn">Changer votre photo</a>
                 </div>
                 <img src="Imports/img/admin_illus.webp" alt="illus_user">
             </div>

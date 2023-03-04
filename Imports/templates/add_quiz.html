@@ -36,7 +36,7 @@ use Enums\QuizAddingResult;
 use Managers\NotificationManager;
 
 if(isset($_POST['name']) && isset($_POST['description']) && ($quiz || isset($_FILES['illus']))){
-    if(!empty($_POST['name']) && !empty($_POST['description']) && ($quiz || $_FILES['illus']['size'] == 0)){
+    if(!empty($_POST['name']) && !empty($_POST['description']) && ($quiz || $_FILES['illus']['size'] > 0)){
         switch(QuizManager::checkAndValidateQuiz($db, $_POST['name'], $_POST['description'], ($_FILES['illus']['size'] == 0 ? null : $_FILES['illus']), $quiz)){
             case QuizAddingResult::Success:
                 header("Location: manage_quiz.php");

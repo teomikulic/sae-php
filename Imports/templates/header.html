@@ -23,7 +23,7 @@ use Managers\UserManager;
             <a href="index.php" class="a-nav">Accueil</a>
             <?php
                 if(UserManager::isConnected()){
-                    echo '<a href="quiz.php" class="a-nav">Quiz</a>';
+                    echo '<a href="quiz.php" class="a-nav">Quiz</a><a href="account.php" class="a-nav">Mon compte</a>';
                     
                     if (isset($_SESSION['isAdmin']) && $_SESSION['isAdmin'] > 0)
                         echo '<a href="admin.php" class="a-nav">Administration</a>';
@@ -32,7 +32,7 @@ use Managers\UserManager;
 
                     $userAvatar = UserManager::getUserAvatarPath();
                     if(!is_null($userAvatar))
-                        echo '<a href="" class="user_ava"><img src="'. $userAvatar .'" alt="user_illus"></a>';
+                        echo '<a href="account.php" class="user_ava"><img src="'. $userAvatar .'" alt="user_illus"></a>';
                 }
                 else{
                     echo '<a onclick="popup()" class="a-nav">Connexion</a>

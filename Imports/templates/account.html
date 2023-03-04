@@ -1,0 +1,26 @@
+<main>
+    <article>
+        <h1><?= $_SESSION["firstName"] . ' ' . $_SESSION["lastName"] ?></h1>
+        <section>
+            <h2>Vos Informations</h2>
+            <div class="dispatcher">
+                <div>
+                    <div class="infos dispatcher">
+                        <div>
+                            <p><?= $_SESSION["email"] ?></p>
+                            <p><?= $_SESSION["firstName"] ?></p>
+                            <p><?= $_SESSION["lastName"] ?></p>
+                        </div>
+                        <div>
+                            <p><?= $_SESSION["isAdmin"] ? "Administrateur" : "Joueur" ?></p>
+                        </div>
+                    </div><br>
+                    <a href="manage_quiz.php" class="link_btn">Changer votre mot de passe</a>
+                    <a href="manage_quiz.php" class="link_btn">Changer votre photo</a>
+                </div>
+                <img src="Imports/img/admin_illus.webp" alt="illus_user">
+            </div>
+            
+        </section>
+    </article>
+</main>

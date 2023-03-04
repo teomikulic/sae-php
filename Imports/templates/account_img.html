@@ -27,6 +27,6 @@ use Managers\NotificationManager;
 if(isset($_FILES['illus']) && $_FILES['illus']['size'] > 0){
     UserManager::changeImage($db, $_SESSION['id'], $_FILES['illus']);
     $_SESSION["img"] = $_FILES['illus']['name'];
-    NotificationManager::notifyError("Veuillez remplir tous les champs");
+    NotificationManager::notifySuccess("Votre image a bien été changé.", "account.php");
 }
 ?>

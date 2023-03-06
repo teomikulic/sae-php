@@ -7,10 +7,10 @@ use Managers\UserManager;
 define("siteName", "OpenQuizz");
 
 // DB
-define("dbHost", "127.0.0.1");
-define("dbUser", "root");
-define("dbPassword", "");
-define("dbName", "saephp");
+define("dbHost", "servinfo-mariadb");
+define("dbUser", "mikulic");
+define("dbPassword", "mikulic");
+define("dbName", "DBmikulic");
 
 session_start();
 $db = new DatabaseAccessor(dbHost, dbUser, dbPassword, dbName, DatabaseCreationMode::Create);

@@ -13,8 +13,8 @@ use Utils\ResizeUploadOption;
 
 class UserManager
 {
-    const mailRegex = "/^[a-z_\\-0-9]+@[a-z\\-0-9]+\\.[a-z]+$/"; // Regex pour les emails
-    const passwordRegex = "/(?=^[A-Za-z0-9-'+!]{3,24}$)(?=.*[A-Z])(?=.*[0-9])/"; // Regex pour les mots de passe
+    const mailRegex = "/^[a-z_\\-0-9.]+@[a-z\\-0-9]+\\.[a-z]+$/"; // Regex pour les emails
+    const passwordRegex = "/(?=^[A-Za-z0-9-'+!@]{3,24}$)(?=.*[A-Z])(?=.*[0-9])/"; // Regex pour les mots de passe
     const letterRegex = "/[A-z-]+/"; // Regex pour les lettres et les tirets
     const defaultAvatarPath = "./Imports/img/default_user.png";
     const sessionTokenLength = 10;
